@@ -1,0 +1,132 @@
+//{ Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+
+
+/*
+// TLE Soln => But Soln is correct 
+// T.C => O(n^2), S.C => O(1)
+class Solution{
+	
+	public:
+	void leftRotate(int arr[], int k, int n) 
+	{ 
+	   int countRotation = 0, temp = 0;
+	   while(countRotation != k) {
+	       temp = arr[0];
+	       
+	       for(int j = 0; j < n-1; j++) {
+	           arr[j] = arr[j+1];
+	       }
+	       
+	       arr[n-1] = temp;
+	       ++countRotation;
+	       
+	       if(countRotation == k) {
+	            break;
+	       } 
+	   }
+	} 
+};
+*/
+
+/*
+// Optimal Soln => Has a high scope of Optimization
+// T.C => O(n + n + n) => O(n,) S.C => O(n) as extra array is used 
+                                    // to store the elements
+class Solution{
+	
+	public:
+	void leftRotate(int arr[], int k, int n) 
+	{ 
+	    int newArr[n];
+	    int rotations = k % n;
+	    
+	    for(int i = 0; i < rotations; i++) { // |
+	        newArr[i] = arr[i];              // | => here we put the elements 
+	    }                                    // |    which is to be rotated
+	    
+	    for(int i = rotations; i < n; i++) { // |
+	        arr[i-rotations] = arr[i];       // |    here shift the remaming 
+	    }                                    // |    elements to forward indices 
+	                                         // | => as rotated elements are taken
+	                                         // |    need to be placed at back so 
+	                                         // |    place at back should have 
+	                                         // |    place to store them                            
+
+	    int j = 0;                              //
+	    for(int i = n-rotations; i < n; i++) {  //
+	        arr[i] = newArr[j++];               // => here at last storing rotated 
+	    }                                       //    elements in the original
+	}                                           //    array from newArr.
+};
+*/
+
+// Optimal Soln
+// T.C => O(n + n + n) => O(n,) S.C => O(1) => Constant Space 
+    
+                                
+void Reverse(int arr[], int s, int e) {
+    while(s < e) {
+        int temp = arr[s];
+        arr[s] = arr[e];
+        arr[e] = temp;
+        ++s; --e;
+    }
+}
+
+class Solution{
+	
+	public:
+	void leftRotate(int arr[], int k, int n) 
+	{ 
+	    k = k % n;
+        Reverse(arr, 0, k-1); // reversing first k elements
+        Reverse(arr, k, n-1); // reversing rest of the elements i.e. n-k elements
+        Reverse(arr, 0, n-1); // now reversing the whole array
+	}
+};
+
+
+
+
+//{ Driver Code Starts.
+
+int main() 
+{
+   	
+   
+   	int t;
+    cin >> t;
+    while (t--)
+    {
+    	int n;
+	    cin >> n;
+	    int k;
+	    cin >> k;
+	    int a[n];
+	    for(int i = 0;i<n;i++){
+	        cin >> a[i];
+	        // um[a[i]]++;
+	    }
+
+
+       
+
+        Solution ob;
+        ob.leftRotate(a,k,n);
+        
+        for (int i = 0; i < n; i++) 
+        	cout << a[i] << " "; 
+
+	    cout << "\n";
+	     
+    }
+    return 0;
+}
+
+
+
+// } Driver Code Ends
