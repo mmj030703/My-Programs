@@ -1,0 +1,21 @@
+Code Link : https://leetcode.com/problems/rotate-array
+Problem Description :
+Given an array, rotate the array to the right by k steps, where k is non-negative.
+
+Note : Brute Force and other solutions to this problem are logic wise similar just small changes are needed. 
+GFG similar problem : Quick Left Rotations => my solution to it => https://github.com/mmj030703/My-Programs/blob/main/Quick%20Left%20Rotation%20(GFG)
+
+Source Code : 
+// Optimized Soln => By Striver Bhaiya Blog
+// T.C => O(n + n + n), S.C => O(1)
+
+class Solution {
+public:
+    void rotate(vector<int>& nums, int k) {
+        k = k % nums.size();
+        
+        reverse(nums.end() - k, nums.end());        
+        reverse(nums.begin(), nums.end() - k);
+        reverse(nums.begin(), nums.end());
+    }
+};
