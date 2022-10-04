@@ -1,0 +1,103 @@
+Problem Link : https://practice.geeksforgeeks.org/problems/zero-sum-subarrays1825/1
+
+Description :
+You are given an array arr[] of size n. Find the total count of sub-arrays having their sum equal to 0.
+
+TestCase 1 : 
+
+Input:
+n = 10
+arr[] = {6,-1,-3,4,-2,2,4,6,-12,-7}
+Output: 4
+Explanation: The 4 subarrays are [-1 -3 4]
+[-2 2], [2 4 6 -12], and [-1 -3 4 -2 2]
+
+Here the PrefixSum Concept is used.
+Image Expalnation : https://github.com/mmj030703/My-Programs/issues/1#issue-1396456384
+Source Code : 
+
+//{ Driver Code Starts
+//Initial function template for C++
+
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long
+
+// } Driver Code Ends
+//User function template for C++
+
+// BruteForce Soln Pending
+
+/*
+// TLE Soln as comparisons are too many and equivalent to n^2 soln: T.C => O(n), S.C => O(1) 
+class Solution{
+    public:
+    //Function to count subarrays with sum equal to 0.
+    ll findSubarray(vector<ll> arr, int n ) {
+        int s = 0, e = 0, count = 0, sum = 0;
+        while(s < n) {
+            if(e < n) {
+                sum += arr[e];
+            }
+            else {
+                s++;
+                e = s;
+                sum = 0;
+                continue;
+            }
+            if(sum == 0) {
+                count++;
+                e++;
+            }
+            else e++;
+        }
+        return count;
+    }
+};
+*/
+
+/*
+// Optimal soln: T.C => O(n), S.C => O(n) as an unordered map is used.
+class Solution{
+    public:
+    //Function to count subarrays with sum equal to 0.
+    ll findSubarray(vector<ll> arr, int n ) {
+        ll count = 0;
+        int prefixSum = 0;
+        unordered_map<int, int> s;
+        for(int i = 0; i < n; i++) {
+            prefixSum += arr[i];
+            if(prefixSum == 0) count++;
+            if(s.find(prefixSum) != s.end()) {
+                count += s[prefixSum];
+                s[prefixSum]++;
+            }
+            else {
+                s[prefixSum]++;
+            }
+        }
+        return count;
+    }
+};
+*/
+
+//{ Driver Code Starts.
+int main()
+ {
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        int n;
+        cin>>n; //input size of array
+       
+        vector<ll> arr(n,0);
+        
+        for(int i=0;i<n;i++)
+            cin>>arr[i]; //input array elements
+        Solution ob;
+        cout << ob.findSubarray(arr,n) << "\n";
+    }
+	return 0;
+}
+// } Driver Code Ends
