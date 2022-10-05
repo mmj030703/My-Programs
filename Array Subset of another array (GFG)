@@ -1,0 +1,91 @@
+Problem Link : https://practice.geeksforgeeks.org/problems/array-subset-of-another-array2317/1
+
+Description :
+Given two arrays: a1[0..n-1] of size n and a2[0..m-1] of size m. 
+Task is to check whether a2[] is a subset of a1[] or not. 
+Both the arrays can be sorted or unsorted. 
+
+TestCase : 
+Input:
+a1[] = {11, 1, 13, 21, 3, 7}
+a2[] = {11, 3, 7, 1}
+Output:
+Yes
+Explanation:
+a2[] is a subset of a1[]
+
+Source Code : 
+
+//{ Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+string isSubset(int a1[], int a2[], int n, int m) ; // Function Declaration
+
+int main() {
+    int t;
+    cin >> t;
+
+    while (t--) {
+        int n, m;
+        cin >> n >> m;
+        int a1[n], a2[m];
+
+        for (int i = 0; i < n; i++) {
+            cin >> a1[i];
+        }
+        for (int i = 0; i < m; i++) {
+            cin >> a2[i];
+        }
+
+        cout << isSubset(a1, a2, n, m) << endl;
+    }
+    return 0;
+}
+// } Driver Code Ends
+
+
+string isSubset(int a1[], int a2[], int n, int m) {
+    /*
+    // BruteForce Soln :
+    // T.C => O(nlogn)
+    // S.C => O(1)
+    sort(a1, a1+n);
+    sort(a2, a2+m);
+    int s1 = 0, s2 = 0, count = 0;
+    while(s2 < m && s1 < n) {
+        if(a1[s1] == a2[s2]) {
+            count++;
+            s1++; s2++;
+        }
+        else s1++;
+    }
+    if(count == m) return "Yes";
+    else return "No";
+    */
+    
+    // Optimal Soln :: Hashing
+    // T.C => O(n)
+    // S.C => O(n)
+    unordered_map<int, int> mp;
+    int count = 0;
+    
+    for(int i = 0; i < n; i++) {
+        mp[a1[i]]++;
+    }
+
+    for(int i = 0; i < m; i++) {
+        if(mp.find(a2[i]) != mp.end()) {
+            if(mp[a2[i]] < 1) {
+                mp.erase(mp[a2[i]]);
+            }
+            else {
+                count++;
+                mp[a2[i]]--;
+            }
+        }
+    }    
+    
+    if(count == m) return "Yes";
+    else return "No";
+}
