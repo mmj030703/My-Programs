@@ -1,0 +1,68 @@
+This problem is not there in GFG Practice
+Problem Link : https://www.geeksforgeeks.org/find-element-with-highest-frequency-in-given-nested-array/
+
+Description :
+Given an array arr[] of N integers. The task is to create a frequency array freq[] of the given array arr[] and find the maximum element of the frequency array. 
+If two elements have the same frequency in the array freq[], then return the element which has a smaller value.
+
+TestCase : 
+Input: arr[] = {1, 1, 1, 2, 3, 2, 2, 3, 5, 5, 5, 5, 4, 4, 4, 4, 4}; 
+Output: 3 
+Explanation: 
+frequency of elements is given by: 
+val -> freq[] 
+1 -> 3 
+2 -> 3 
+3 -> 2 
+4 -> 5 
+5 -> 4 
+Element 3 has the maximum frequency in the frequency array.
+
+Source Code : 
+1) BruteForce Soln : 
+
+2) Optimal Soln :: Using Hashing
+#include<bits/stdc++.h>
+using namespace std;
+
+int findHighestFrequency(int arr[], int n) {
+    
+	int maxFreq = 0, ans = 0; // To find the maximum frequency
+	unordered_map<int, int> count1, count2;
+	unordered_map<int, int> :: iterator it;
+	
+	for(int i = 0; i < n; i++) { // Store the frequency of
+		count1[arr[i]]++;         // element of array in map1
+	}
+	
+	//while using auto keyword we don't have to make the iterator
+	//Also for auto keyword we write it.second and when we use iterator we write it->first
+	for(it = count1.begin(); it != count1.end(); it++) { // Storing the frequency i.e.,
+		count2[it -> second]++;                          // (count1.second) which is count of
+	}                                                     // element in array
+
+    // (auto it : count 2) is = (it = count2.begin(); it != count2.end(); it++)
+	for(auto i : count2) { 
+		if(maxFreq < i.second) { 
+		    maxFreq = i.second;     // if frequency of element is
+		    ans = i.first;          // smaller than maxFreq
+		}	                   
+	}                                                       
+
+	return ans; 	// Return the highest frequency
+}
+
+// Driver Code
+int main() {
+    
+	int arr[100], n, ans;
+	cin >> n; // taking array size
+	for(int i = 0; i < n; i++) { // taking array elements
+	    cin >> arr[i];
+	}
+	
+	ans = findHighestFrequency(arr, n); // Function Call
+	
+	cout << "Highest Frequency : " << ans;
+	return 0;
+}
