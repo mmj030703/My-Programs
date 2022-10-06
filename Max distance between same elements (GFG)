@@ -1,0 +1,146 @@
+Problem Link : 
+https://practice.geeksforgeeks.org/problems/max-distance-between-same-elements/1?utm_source=youtube&utm_medium=collab_codein10_description&utm_campaign=max-distance-between-same-elements
+
+Description : 
+Given an array with repeated elements, the task is to find the maximum distance between two occurrences of an element.
+
+TestCase : 
+Input
+n = 12
+arr = {3, 2, 1, 2, 1, 4, 5, 8, 6, 7, 4, 2}
+
+Output : 
+10
+Explanation : 
+arr[] = {3, 2, 1, 2, 1, 4, 5, 8, 6, 7, 4, 2}
+Max Distance 10
+maximum distance for 2 is 11-1 = 10
+maximum distance for 1 is 4-2 = 2
+maximum distance for 4 is 10-5 = 5
+
+Expected Time Complexity : O(N)
+Expected Auxilliary Space : O(N)
+
+Constraints:
+1<=N<=106
+
+Source Code : 
+
+//{ Driver Code Starts
+#include<bits/stdc++.h>
+using namespace std;
+// } Driver Code Ends
+
+class Solution{
+    public:
+    // your task is to complete this function
+    
+    /*
+    // BruteForce Soln : It will cause TLE (Time Limited Exceeded ) and tell to 
+    // T.C => O(n^2)     to optimise it.
+    // S.C => O(1)
+    int maxDistance(int arr[], int n) {
+        int currDist = 0, maxDist = 0;
+        for(int i = 0; i < n-1; i++) {
+            for(int j = i+1; j < n; j++) {
+                if(arr[i] == arr[j]) {
+                    currDist = j - i;
+                    if(maxDist < currDist) {
+                        maxDist = currDist;
+                    }
+                }
+            }
+        }
+        return maxDist;
+    }
+    */
+    
+    /*
+    ////////////////////////////////////////////////////////////////
+    // Optimal Soln : It will cause TLE (Time Limited Exceeded ) and tell to 
+    // T.C => O(n + n + n) => O(n) to optimise it.
+    // S.C => O(n + n) => O(n)
+    int maxDistance(int arr[], int n) {    
+        unordered_map<int ,int> freq;
+        unordered_map<int, int> dist;
+        int maxDist = 0;
+        int currDist = 0;
+        
+        for(int i = 0; i < n; i++) {
+            freq[arr[i]]++;
+        }
+        for(int i = 0; i < n; i++) {
+            if(freq[arr[i]] > 1 && dist.find(arr[i]) == dist.end()) {
+                dist[arr[i]] = i;
+                freq[arr[i]]--;
+            }
+            else if(freq[arr[i]] > 1 && dist.find(arr[i]) != dist.end()) {
+                freq[arr[i]]--;
+                continue;
+            }
+            else if(freq[arr[i]] == 1 && dist.find(arr[i]) == dist.end()) {
+                continue;
+            }
+            else if(freq[arr[i]] == 1 && dist.find(arr[i]) != dist.end()) {
+                currDist = i - dist[arr[i]];
+                dist[arr[i]] = currDist;
+                freq[arr[i]]--;
+                if(maxDist < dist[arr[i]]) {
+                    maxDist = dist[arr[i]];
+                }
+            }
+        }
+        // Last if part can be done like below also
+        // for(auto it : dist) {
+        //     if(maxDist < it.second) {
+        //         maxDist = it.second;
+        //     }
+        // }
+        
+        return maxDist;
+    }
+    */
+    
+    ////////////////////////////////////////////////////////////////
+    // Optimal Soln
+    // T.C => O(n)
+    // S.C => O(n)
+    int maxDistance(int arr[], int n) {    
+        unordered_map<int, int> mp;
+        int maxDist = 0;
+        int currDist = 0;
+        
+        for(int i = 0; i < n; i++) {
+            if(mp.find(arr[i]) == mp.end()) {
+                mp[arr[i]] = i;
+            }
+            else {
+                currDist = i - mp[arr[i]];
+                maxDist = max(maxDist, currDist);
+            }
+        }
+        return maxDist;
+    }    
+};
+
+//{ Driver Code Starts.
+
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        int n;
+        cin>>n;
+        int arr[n];
+        for(int i=0; i<n; i++)
+            cin>>arr[i];
+        Solution ob;
+        cout<<ob.maxDistance(arr,n)<<endl;
+    }
+    return 0;
+}
+// } Driver Code Ends
+
+ 
