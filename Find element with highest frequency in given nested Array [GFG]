@@ -20,8 +20,61 @@ Element 3 has the maximum frequency in the frequency array.
 
 Source Code : 
 1) BruteForce Soln : 
+// T.C => O(NLOGN + N + NLOGN + N) => O(NLOGN)
+// S.C => O(N) as a vector is used to store frequencies of elements;
+#include <bits/stdc++.h>
+using namespace std;
 
+int findHighestFrequency(int arr[], int n) {
+    sort(arr, arr+n);
+    vector<int> freq;
+    int count = 1, maxFreq = 0, chkFreq = 0, elemCount = 0;
+    for(int i = 0; i < n; i++) {
+        if(arr[i] == arr[i+1]) {
+            count++;
+        }
+        else {
+            freq.push_back(count);
+            count = 1;
+            elemCount++;
+        }
+    }
+    count = 1;
+    sort(freq.begin(), freq.end());
+    for(int i = 0; i < elemCount; i++) {
+        if(freq[i] == freq[i+1]) {
+            count++;
+        }
+        else {
+            if(chkFreq < count) {
+                chkFreq = count;
+                maxFreq = freq[i];
+            }
+            count = 1;
+        }
+    }
+    return maxFreq;
+}
+
+// Driver Code
+int main() {
+    
+	int arr[100], n, ans;
+	cin >> n; // taking array size
+	for(int i = 0; i < n; i++) { // taking array elements
+	    cin >> arr[i];
+	}
+	
+	ans = findHighestFrequency(arr, n); // Function Call
+	
+	cout << "Highest Frequency : " << ans;
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 2) Optimal Soln :: Using Hashing
+// T.C => O(N + N + N) => O(N)
+// S.C => O(N + N) => O(N)
 #include<bits/stdc++.h>
 using namespace std;
 
@@ -29,7 +82,7 @@ int findHighestFrequency(int arr[], int n) {
     
 	int maxFreq = 0, ans = 0; // To find the maximum frequency
 	unordered_map<int, int> count1, count2;
-	unordered_map<int, int> :: iterator it;
+	unordered_map<int, int> :: iterator it; // not used in the program
 	
 	for(int i = 0; i < n; i++) { // Store the frequency of
 		count1[arr[i]]++;         // element of array in map1
