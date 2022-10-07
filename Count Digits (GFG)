@@ -1,0 +1,73 @@
+Problem Link : https://practice.geeksforgeeks.org/problems/count-digits5716/1
+
+Description :
+Given a number N. Count the number of digits in N which evenly divides N.
+
+TestCase 1 :
+Example 1:
+
+Input:
+N = 12
+Output:
+2
+Explanation:
+1, 2 both divide 12 evenly
+Example 2:
+
+Input:
+N = 23
+Output
+0
+Explanation:
+2 and 3, none of them
+divide 23 evenly
+
+Expected Time Complexity: O(log N)
+Expected Space Complexity: O(1)
+ 
+Source Code :
+
+//{ Driver Code Starts
+#include<bits/stdc++.h> 
+using namespace std;
+
+// } Driver Code Ends
+class Solution{
+public:
+    // Optimal Soln :
+    // T.C => O(logn) as we are not traversing n times and we are dividing n by 10
+    //                so we are able to do so with log to the base 10 n i.e. O(logn). 
+    // S.C =>O(1)
+    int evenlyDivides(int N){
+        
+        int count = 0, digit, temp = N;
+        while(temp != 0) {
+            digit = temp % 10;
+            if(digit == 0) {
+                temp /= 10;
+                continue;
+            }
+            if(N % digit == 0) {
+                count++;
+            }
+            temp /= 10;
+        }
+        return count;
+    }
+};
+
+//{ Driver Code Starts.
+int main() 
+{ 
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        int N;
+        cin>>N;
+        Solution ob;
+        cout << ob.evenlyDivides(N) << endl;
+    }
+    return 0; 
+}
+// } Driver Code Ends
