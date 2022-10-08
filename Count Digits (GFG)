@@ -71,3 +71,23 @@ int main()
     return 0; 
 }
 // } Driver Code Ends
+
+
+// Some Good Methods to find no of Digits in a number: using log10() function
+// log to base 10 of any number gives answer as the whole digits - 1; eg :- 1657 => log10(1657) => 3.21... => taking it's int part we get 3 and add 1 we get tot digits 
+#include<bits/stdc++.h>
+
+using namespace std;
+
+int count_digits( int n )
+{
+  int digits = floor(log10(n) + 1);
+  return digits;
+}
+
+int main()
+{
+   int n = 12345;
+   cout<< "Number of digits in "<<n<<" is "<<count_digits(n);
+   return 0;
+}
