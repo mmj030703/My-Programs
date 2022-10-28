@@ -39,6 +39,26 @@ using namespace std;
 // } Driver Code Ends
 //User function Template for C++
 
+/*
+// BruteForce Soln 
+// T.C => O(n)
+// S.C => O(1)
+class Solution
+{
+	public:
+		string is_palindrome(int n) {
+		    vector<char> temp;
+		    string n1 = to_string(n);
+		    string n2 = n1;
+		    reverse(n2.begin(), n2.end());
+		    if(n1 == n2)
+		        return "Yes";
+		    else return "No";
+		}
+};
+*/
+
+
 // Optimal Soln 
 // T.C => O(logn)
 // S.C => O(1)
