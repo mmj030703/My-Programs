@@ -6,8 +6,60 @@ Note : Brute Force and other solutions to this problem are logic wise similar ju
 GFG similar problem : Quick Left Rotations => my solution to it => https://github.com/mmj030703/My-Programs/blob/main/Quick%20Left%20Rotation%20(GFG)
 
 Source Code : 
+
+// TLE Soln 
+// T.C => O(n^2)
+// S.C => O(1)
+
+class Solution {
+public:
+    void rotate(vector<int>& nums, int k) {
+        int temp = 0;
+        int n = nums.size();
+        int rotate = k;
+        if(k > n) {
+            rotate = k % n;
+        }
+        
+        for(int i = 0; i < rotate; i++) {
+            temp = nums[n-1];
+            for(int j = n-1; j > 0; j--) {
+                nums[j] = nums[j-1];
+            }
+            nums[0] = temp;
+        }
+    }
+};
+*/
+
+/*
+// Better than BruteForce Soln
+// T.C => O(n + n + n) => O(n)
+// S.C => O(n)
+
+class Solution {
+public:
+    void rotate(vector<int>& nums, int k) {
+        int n = nums.size();
+        k = k % n;
+        vector<int> rotElem;
+        for(int i = n-k; i < n; i++) {
+            rotElem.push_back(nums[i]);
+        }
+        
+        for(int i = n-k-1; i >= 0; i--) {
+            nums[i+k] = nums[i];
+        }
+        
+        for(int i = 0; i < k; i++) {
+            nums[i] = rotElem[i];
+        }
+    }
+};
+*/
+
 // Optimized Soln => By Striver Bhaiya Blog
-// T.C => O(n + n + n), S.C => O(1)
+// T.C => O(n + n + n) => O(n) , S.C => O(1)
 
 class Solution {
 public:
