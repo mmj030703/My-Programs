@@ -25,7 +25,32 @@ Source Code:
 using namespace std; 
 // } Driver Code Ends
 
-// 1. BruteForce Soln :: Using two loops
+// 1. BruteForce Soln :: Using two loops give TLE
+class Solution{
+    public:
+    //Function to count the frequency of all elements from 1 to N in the array.
+    void frequencyCount(vector<int>& arr,int N, int P) { 
+        sort(arr.begin(), arr.end());
+        vector<int> temp;
+        int count = 0;
+        for(int i = 1; i <= N; i++) {
+            count = 0;
+            for(int j = 0; j < arr.size(); j++) {
+                if(i < arr[j]) break;
+                if(i == arr[j]) {
+                    count++;
+                }
+            }
+            temp.push_back(count);
+        }
+        
+        for(int i = 0; i < N; i++) {
+            arr[i] = temp[i];
+        }
+    }
+};
+*/
+
 
 /* 2. Better than BruteForce Soln
 // T.C => O(n+n) => O(n)
@@ -53,16 +78,38 @@ class Solution{
 */
 
 /* 3. Optimal Soln
-// T.C => O(n)
+// T.C => O(n + n + n) => O(n)
 // S.C => O(1)
-class Solution{
+class Solution {
     public:
-    //Function to count the frequency of all elements from 1 to N in the array.
-    void frequencyCount(vector<int>& arr,int N, int P)
-    { 
-        
+    void frequencyCount(vector<int>& arr,int N, int P) { 
+      int n = arr.size();
+      for(int i = 0; i < n; i++) {
+          if(arr[i] > n) arr[i] = 0; // if elem is > n then we make it 0 as said in
+      }                              // problem statement
+      
+      P = P+1; // incrementing P now all the elements of array are smaller than P
+               // we will use this incremented P as a constant value for adding to
+               // to index-1 value of current index value;
+               // because number of times we add P to that index and at the end 
+               // when we divide we get that number of times
+               // eg: if we add P = 4 => after incrmt => 5 to index 5 two times
+               // ans index 5 value is for eg. 2 so current val becomes 12 now
+               // we divide it by P so we get 12 / 5 => 2
+               // also as all elements are less than P so at end when we divide
+               // by P than the previous value in above case 2 will not affect 
+               // our ans.
+      for(int  i = 0; i < n; i++) {
+          if(arr[i]%P == 0) continue; // we chk for 0 whether 0 is there then conti;
+          arr[arr[i]%P - 1] += P;     // going to ind-1 ans adding P
+      }
+      
+      for(int i = 0; i < n; i++) {
+          arr[i] /= P;                // at end dividing by P to get the final ans
+      }                               // at each position
     }
 };
+
 
 
 
