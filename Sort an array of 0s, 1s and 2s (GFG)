@@ -1,0 +1,174 @@
+Problem Link : 
+https://practice.geeksforgeeks.org/problems/sort-an-array-of-0s-1s-and-2s4231/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=sort-an-array-of-0s-1s-and-2s
+
+Description : 
+Given an array of size N containing only 0s, 1s, and 2s; sort the array in ascending order.
+
+Example 1:
+Input: 
+N = 5
+arr[]= {0 2 1 2 0}
+Output:
+0 0 1 2 2
+Explanation:
+0s 1s and 2s are segregated 
+into ascending order.
+Example 2:
+
+Input: 
+N = 3
+arr[] = {0 1 0}
+Output:
+0 0 1
+Explanation:
+0s 1s and 2s are segregated 
+into ascending order.
+
+Your Task:
+You don't need to read input or print anything. Your task is to complete the function sort012() that takes an array arr and N as input parameters and sorts the array 
+in-place.
+
+Expected Time Complexity: O(N)
+Expected Auxiliary Space: O(1)
+
+Source Code :
+//{ Driver Code Starts
+#include<bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+/*
+// BruteForce Soln 1 : we can do this with single loop also
+// T.C => O(N + N) => O(N)
+// S.C => O(1)
+class Solution
+{
+    public:
+    void sort012(int arr[], int n)
+    {
+        int s = 0, e = n-1;
+        while(s < e) {
+            if((arr[e] == 1 || arr[e] == 0 || arr[e] == 2) && (arr[s] == 2)) {
+                int temp = arr[s];
+                arr[s] = arr[e];
+                arr[e] = temp;
+                e--;
+            }
+            else {
+                s++;
+            }
+        }
+        s = 0, e = n-1;
+        while(s < e) {
+            if(arr[s] == 1 && (arr[e] == 0 || arr[e] == 1)) {
+                int temp = arr[s];
+                arr[s] = arr[e];
+                arr[e] = temp;
+                e--;
+            }
+            else if(arr[e] == 2) e--;
+            else {
+                s++;
+            }
+        }
+        
+    }
+    
+};
+*/
+
+/*
+// BruteForce Soln 2 : we can do this with single loop also
+// T.C => O(N + N) => O(N)
+// S.C => O(1)
+class Solution
+{
+    public:
+    void sort012(int arr[], int n) {
+        int zeroCount = 0, oneCount = 0;
+        for(int i = 0; i < n; i++) {
+            if(arr[i] == 0) ++zeroCount;
+            if(arr[i] == 1) ++oneCount;
+        }
+        for(int i = 0; i < n; i++) {
+            if(zeroCount > 0) {
+                arr[i] = 0;
+                --zeroCount;
+            }
+            else if(oneCount > 0) {
+                arr[i] = 1;
+                --oneCount;
+            }
+            else arr[i] = 2;
+        }
+        
+    }
+    
+};
+*/
+
+// Optimal Soln :
+// T.C => O(N) => O(N)
+// S.C => O(1)
+class Solution {
+    public:
+    void sort012(int arr[], int n) {
+        int z = 0, o = 0, t = n-1;
+        while(o <= t) {
+            if(arr[o] == 0) {
+                int temp = arr[z];
+                arr[z] = arr[o];
+                arr[o] = temp;
+                ++z;
+                ++o;
+            }
+            else if(arr[o] == 2) {
+                int temp = arr[o];
+                arr[o] = arr[t];
+                arr[t] = temp;
+                --t;
+            }
+            else {
+                ++o;
+            }
+        }
+    }
+    
+};
+
+
+//{ Driver Code Starts.
+int main() {
+
+    int t;
+    cin >> t;
+
+    while(t--){
+        int n;
+        cin >>n;
+        int a[n];
+        for(int i=0;i<n;i++){
+            cin >> a[i];
+        }
+
+        Solution ob;
+        ob.sort012(a, n);
+
+        for(int i=0;i<n;i++){
+            cout << a[i]  << " ";
+        }
+
+        cout << endl;
+        
+        
+    }
+    return 0;
+}
+
+
+// } Driver Code Ends
+
+
+Constraints:
+1 <= N <= 10^6
+0 <= A[i] <= 2
