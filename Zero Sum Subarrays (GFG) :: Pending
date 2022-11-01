@@ -26,10 +26,9 @@ using namespace std;
 // } Driver Code Ends
 //User function template for C++
 
-// BruteForce Soln Pending
-
 /*
-// TLE Soln as comparisons are too many and equivalent to n^2 soln: T.C => O(n), S.C => O(1) 
+// BruteForce Soln : TLE Soln as comparisons are too many and equivalent to n^2 soln: T.C => O(n), S.C => O(1) 
+// This can be done using two loops also
 class Solution{
     public:
     //Function to count subarrays with sum equal to 0.
