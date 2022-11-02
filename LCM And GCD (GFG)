@@ -22,7 +22,8 @@ LCM of 14 and 8 is 56, while
 thier GCD is 2.
  
 Your Task:
-You don't need to read input or print anything. Your task is to complete the function lcmAndGcd() which takes an Integer N as input and returns a List of two Integers, the required LCM and GCD.
+You don't need to read input or print anything. Your task is to complete the function lcmAndGcd() which takes an Integer N as input and returns a List of two 
+Integers, the required LCM and GCD.
 
 Expected Time Complexity: O(log(min(A, B))
 Expected Auxiliary Space: O(1)
@@ -62,28 +63,45 @@ class Solution {
 };
 */
 
-// Optimal Solution
+// BruteForce Solution => have a scope of Optimization
+// T.C => O(min(A,B))
+// S.C => O(1)
+// class Solution {
+//   public:
+//     vector<long long> lcmAndGcd(long long A , long long B) {
+//         long long lcm = 0, gcd = 0;
+//         long long a = A, b = B;
+//         while(A != B) {
+//             if(A == 0) {
+//                 gcd = B;
+//                 break;
+//             }
+//             if(B == 0) {
+//                 gcd = A;
+//                 break;
+//             }
+//             if(A > B) A -= B;
+//             if(B > A) B -= A;
+//         }
+//         gcd = A;
+//         lcm = (a*b) / gcd;
+//         return {lcm,gcd};
+//     }
+// };
+
+
+// Optimal Solution using Recursion
 // T.C => O(log(min(A,B)))
 // S.C => O(1)
 class Solution {
   public:
-    vector<long long> lcmAndGcd(long long A , long long B) {
-        long long lcm = 0, gcd = 0;
-        long long a = A, b = B;
-        while(A != B) {
-            if(A == 0) {
-                gcd = B;
-                break;
-            }
-            if(B == 0) {
-                gcd = A;
-                break;
-            }
-            if(A > B) A -= B;
-            if(B > A) B -= A;
-        }
-        gcd = A;
-        lcm = (a*b) / gcd;
+    long long GCD(long long a, long long b) {
+        if(b == 0) return a;
+        return GCD(b, a%b);
+    }
+    vector<long long> lcmAndGcd(long long a , long long b) {
+        long long gcd = GCD(a,b);
+        long long lcm = (a*b) / gcd;
         return {lcm,gcd};
     }
 };
