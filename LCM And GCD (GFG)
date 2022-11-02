@@ -94,7 +94,7 @@ class Solution {
 
 // Optimal Solution using Recursion
 // T.C => O(log(min(A,B)))
-// S.C => O(1)
+// S.C => O(O(log(min(A,B))))
 class Solution {
   public:
     long long GCD(long long a, long long b) {
