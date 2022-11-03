@@ -70,3 +70,56 @@ int main() {
 }
 
 // } Driver Code Ends
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Find whether the given Kth Digit Number is an ArmStrong Number or not. (No question is available to practice so do it in available ide)
+
+Example 1:
+Input: N = 1634
+Output: "Yes"
+Explanation: 1634 is an Armstrong number
+since 1 + 1296 + 81 + 256 = 1634.
+Hence answer is "Yes".
+
+Source Code : 
+// BruteForce Soln :
+// T.C => O(log(n) + log(n)) => O(log(n))
+// S.C => O(1)
+#include<bits/stdc++.h>
+using namespace std;
+
+int findDigit(int n) {
+    int count = 0;
+    while(n != 0) {
+        count++;
+        n /= 10;
+    }
+    return count;
+}
+
+bool isArmStrong(int n) {
+    int n1 = n;
+    int digit = findDigit(n);
+    int arm = 0;
+    while(n1 != 0) {
+        int rem = n1 % 10;
+        arm = arm + pow(rem, digit);
+        n1 /= 10;
+    }
+    if(arm == n) return true;
+    else return false;
+}
+
+
+int main() {
+    int n;
+    cin >> n;
+    // int arr[n];
+    // for(int i = 0; i < n; i++) {
+    //     cin >> arr[i];
+    // }
+    int ans = isArmStrong(n);
+    cout << "Armstrong :  " << ans; 
+    return 0;
+}
