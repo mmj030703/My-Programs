@@ -1,0 +1,215 @@
+Problem Link : 
+https://practice.geeksforgeeks.org/problems/happy-number1408/1?utm_source=youtube&utm_medium=collab_fraz_websitelink&utm_campaign=Happy+Number
+LeetCode Link : 
+https://leetcode.com/problems/happy-number/
+
+Description : 
+Given a number N find whether its a happy number or not. 
+A number is called happy if it leads to 1 after a sequence of steps wherein each step, the number is replaced by the sum of squares of its digit that is if we start with Happy Number and keep replacing it with digits square sum, we reach 1.
+
+Example 1:
+
+Input: 
+N = 19
+Output: 
+1
+Explanation:
+19 is a Happy Number,
+1^2 + 9^2 = 82
+8^2 + 2^2 = 68
+6^2 + 8^2 = 100
+1^2 + 0^2 + 0^2 = 1
+As we reached to 1, 
+19 is a Happy Number.
+Example 2:
+
+Input:
+N = 20
+Output: 
+0
+Explanation: 
+We can never reach to 1
+by repeating the mentioned
+steps.
+
+Your Task:
+You don't need to read input or print anything. Your task is to complete the function isHappy() which takes an integer N as input parameter and returns 1 if N is a happy number or 0 otherwise.
+ 
+
+Expected Time Complexity: O(sqrt(N))
+Expected Space Complexity: O(1)
+ 
+
+Constraints:
+1 <= N <= 10^4
+
+Source Code :
+//{ Driver Code Starts
+#include<bits/stdc++.h> 
+using namespace std;
+
+// } Driver Code Ends
+
+// Happy Number :
+// A happy number after multiple steps evaluates to 1.
+// eg : 19 => it will evaluate to 1 hence it is Happy No.
+// A unhappy number will evaluate to the orginal number again after multiple steps.
+// eg : 4 => it will evaluate to 4 again hence it is not a Happy No.
+
+/*
+// BruteForce Soln
+// T.C => O(n^2)
+// S.C => O(1)
+class Solution{
+public:
+    int isHappy(int N){
+        int temp = N;
+        for(int i = 1; i <= N; i++) {
+            int temp1 = temp;
+            int sum = 0;
+            while(temp1 != 0) {
+                int rem = temp1 % 10;
+                sum += (rem*rem);
+                temp1 /= 10;
+            }
+            temp = sum;
+            if(temp == 1) return true;
+        }
+        return false;
+    }
+};
+*/ //BruteForce Soln (My Soln)
+
+/*
+// T.C => O(sqrt(N)*log(n)) here the inside while loop is running constant 0(1) no of times
+//                   i.e. maximum 5 times bcoz max constraint is 10^4 ~ (5 digit)
+// S.C => O(1)
+class Solution{
+public:
+    int isHappy(int N){
+        int temp = N;
+        if(N == 7) return 1;
+        for(int i = 1; i*i <= N; i++) {
+            int temp1 = temp;
+            int sum = 0;
+            while(temp1 != 0) {
+                int rem = temp1 % 10;
+                sum += (rem*rem);
+                temp1 /= 10;
+            }
+            temp = sum;
+            if(temp == 1) return true;
+        }
+        return false;  
+    }
+};
+*/ // 1st Optimal Soln
+
+/*
+// Another Optimal Soln : 
+// T.C => O(N)*log(N) as while loop cann run at max N times
+// S.C => O(1)
+class Solution{
+public:
+    int sum(int n)
+   {
+       int s= 0;
+       while(n>0)
+       {
+           int digit= n%10;
+           s= s+ (digit*digit);
+           n=n/10;
+       }
+       return s;
+   }
+    int isHappy(int N){
+        
+       int temp=N;
+       while(1) {
+          if(temp==89)  // each unhappy number at any step will always raech to 89
+              return 0; // value
+          if(temp==1)   // If temp reaches 1 so we return 1 s it is happy number
+              return 1;
+              
+          temp= sum(temp);
+        }
+    }
+};
+*/ // 2nd Optimal Soln
+
+/*
+// Hare and Tortoise (Floyd's Cycle Detection) Approach
+// Here hare moves two times (two func calls) and Tortoise moves one time 
+// (one func call) and both moves untill hare and tortoise meets together, the 
+// place where they meet is the place of common number.
+
+// Optimal Soln
+// T.C => O(N)*LOG(N)
+// S.C => O(1)
+class Solution{
+public:
+    int sqr(int n) {
+       int s= 0;
+       while(n>0){
+           int digit= n%10;
+           s = s + (digit*digit);
+           n = n/10;
+       }
+       return s;
+    }
+    int isHappy(int n){
+        int hare = n, tortoise = n;
+        do {
+            tortoise = sqr(tortoise);  // Here hare moves two times (two func calls)
+            hare = sqr(sqr(hare));     // Tortoise moves one time (one func call)
+            
+        } while(hare != tortoise);
+        return hare == 1;
+    }
+};
+*/ // Hare and Tortoise (Floyd's Cycle Detection) Approach
+
+/*
+// Better Soln : Using Set
+// T.C => O(N)*LOG(N)
+// S.C => O(n)
+class Solution{
+public:
+int sqr(int n) {
+       int s= 0;
+       while(n>0){
+           int digit= n%10;
+           s = s + (digit*digit);
+           n = n/10;
+       }
+       return s;
+    }
+    int isHappy(int n){
+        unordered_set<int> s;
+        int sum = n;
+        while(1) {
+            sum = sqr(sum);
+            if(sum == 1) return 1;
+            if(s.find(sum) == s.end()) s.insert(sum);
+            else return 0;
+        }
+    }
+};
+*/ // Better Soln
+
+
+//{ Driver Code Starts.
+int main() 
+{ 
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        int N;
+        cin>>N;
+        Solution ob;
+        cout << ob.isHappy(N) << endl;
+    }
+    return 0; 
+}
+// } Driver Code Ends
