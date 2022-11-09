@@ -1,0 +1,189 @@
+Problem Link :
+https://practice.geeksforgeeks.org/problems/excel-sheet5448/1?utm_source=youtube&utm_medium=collab_fraz_websitelink&utm_campaign=Excel+Sheet+%7C+Part+-+1
+LeetCode Link :
+https://leetcode.com/problems/excel-sheet-column-title/
+
+Description :
+Given an integer columnNumber, return its corresponding column title as it appears in an Excel sheet.
+
+For example:
+
+A -> 1
+B -> 2
+C -> 3
+...
+Z -> 26
+AA -> 27
+AB -> 28 
+...
+Example 1:
+Input: columnNumber = 1
+Output: "A"
+
+Example 2:
+Input: columnNumber = 28
+Output: "AB"
+
+Example 3:
+Input: columnNumber = 701
+Output: "ZY" 
+
+Complete the function ExcelColumn() which takes N as input and returns output string.
+
+Constraints:
+1 <= columnNumber <= 231 - 1
+
+Source Code :
+//{ Driver Code Starts
+//Initial template for C++
+
+
+#include<bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+//User function template for C++
+
+/*
+// Better Soln
+// T.C => O(log(N))
+// S.C => O(N)
+class Solution{
+    public:
+    string ExcelColumn(int N)
+    {
+        string s = "";
+        string alph = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        int rem = 0, quot = N;
+        while(quot != 0) {
+            quot--;           // decrementing quot to avoid complete divide cases
+            rem = quot % 26;  // eg : 676 o/p is YZ but 676 gets completely divide 
+            quot = quot / 26; // by 26 so we reduce by 1 and at the end we add 1 
+            s += alph[rem];   // during concatenating in s; 
+        }                     // alph[rem-1] => this is the normal way to write
+                              // but as alphabet in alph starts from 0 index so
+                              // we reduce 1.
+                              // But in this soln we don't reduce by one as we need
+                              // to add one in alph as mentioned above so we do
+                              // alph[rem-1+1] => alph[rem]
+        reverse(s.begin(), s.end()); // s is ans in reverse form so we reverse it to
+                                     // get correct answer
+        return s;
+    }
+};
+*/ // Better Soln
+
+// All Soln below are of same kind with little variations in the while loop code
+
+/* 
+// Optimal Soln Better than all
+// T.C => O(log(N))
+// S.C => O(1)
+class Solution{
+    public:
+    string ExcelColumn(int N)
+    {
+        string ans = "";
+        char c;
+        int rem = 0;
+        while(N != 0)
+        {
+            N -= 1;
+            rem = N % 26;
+            c = (rem + 'A');
+            ans = c + ans;
+            N /= 26;
+        }
+        return ans;
+    }
+};
+*/ // Optimal Soln Better than all
+
+/*
+// Optimal Soln
+// T.C => O(log(N))
+// S.C => O(1)
+class Solution{
+    public:
+    string ExcelColumn(int N)
+    {
+        string s = "";
+        int rem = 0, quot = N;
+        while(quot != 0) {
+            quot--;
+            rem = quot % 26;
+            quot = quot / 26;
+            s += rem + 'A';    // here we add 'A' (97 in int) to rem to add 1 which
+        }                      // reduced above.
+        reverse(s.begin(), s.end());
+        return s;
+    }
+};
+*/ // Optimal Soln 1
+
+/*
+// Optimal Soln
+// T.C => O(log(N))
+// S.C => O(1)
+class Solution{
+    public:
+    string ExcelColumn(int N)
+    {
+        string s = "";
+        int rem = 0, quot = N;
+        while(quot != 0) {
+            quot--;
+            rem = quot % 26;
+            quot = quot / 26;
+            s += rem + 'A';    // here we add 'A' (97 in int) to rem to add 1 which
+        }                      // reduced above.
+        reverse(s.begin(), s.end());
+        return s;
+    }
+};
+*/ // Optimal Soln 2
+
+/*
+// Optimal Soln
+// T.C => O(log(N))
+// S.C => O(1)
+class Solution{
+    public:
+    string ExcelColumn(int N)
+    {
+        string ans = "";
+        char c;
+        while(N != 0) {
+            if(N % 26 == 0) {
+                N -= 1;
+                ans = 'Z' + ans;
+            }
+            else {
+                int rem = N % 26;
+                c = rem-1 + 'A';
+                ans = c + ans;
+            }
+            N /= 26;
+        }
+        return ans;
+    }
+};
+*/ // Optimal Soln 3
+
+
+//{ Driver Code Starts.
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        int n;
+        cin>>n;
+        Solution ob;
+        cout<<ob.ExcelColumn(n)<<endl;
+    }
+    return 0;
+}
+    
+// } Driver Code Ends
