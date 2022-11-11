@@ -1,0 +1,87 @@
+Problem Link : 
+https://leetcode.com/problems/angle-between-hands-of-a-clock/description/
+GFG Link :
+https://practice.geeksforgeeks.org/problems/angle-between-hour-and-minute-hand0545/1?utm_source=youtube&utm_medium=collab_fraz_websitelink&utm_campaign=Angle+between+hour+and+minute+hand
+
+Description : 
+Given two numbers, hour and minutes, return the smaller angle (in degrees) formed between the hour and the minute hand.
+Answers within 10^-5 of the actual value will be accepted as correct.
+
+Example 1:
+Input: hour = 12, minutes = 30
+Output: 165
+
+Example 2:
+Input: hour = 3, minutes = 30
+Output: 75
+
+Example 3:
+Input: hour = 3, minutes = 15
+Output: 7.5
+ 
+Constraints:
+1 <= hour <= 12
+0 <= minutes <= 59
+
+Intution (it is written in the same problem leetcode notes): 
+In this problem we need basic math required for understanding relationship between hour hand, minute hand and angles.
+**1: Hour Hand Relation :**
+12 hr => complete circle (360 degree)
+1 hr = 30 degree (360 / 12 = 30)
+1 min = 0.5 degree
+
+**2: Minute Hand Relation**
+60 min => complete circle => (360 degree)
+1 min => 6 degree
+
+**Approach :** 
+1) first we calc hour hand angle
+:- first we calculate angle made by hour hand i.e. 1hr = 30 degree so x hrs = x * 30 degree
+:- basic twist is when **we calculate hour hand angle with respect to perpendicular** i.e straight line  
+    between 12 and 6.
+:- also when minute is 0 then there is no variation in hours hand but as minutes keep on increasing the 
+   hour hand also sees slight increase in its's angle so **we need to add this variation angle caused due 
+	 to minute hand also.**
+;- to calculate this variation angle we multiply minute hand by 0.5 as in 1hr there is 30 degree so in 1 min we have 0.5 degree so for x min we have x * 0.5 degree.
+2) now we calc min hand angle
+:- in 60 min => 360 deg so in 1 min => 6 deg so in x min => we have x * 6 deg
+3) so we have hour and min hand so thier absolute diff is ans
+4) the edge case is if angle is greater than 180 (obtuse) so we return 360 - ans angle. else we return angle
+
+Source Code :
+//{ Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+
+// Optimal Soln
+// T.C => O(1)
+// S.C => O(1)
+class Solution {
+  public:
+    int getAngle(int hours , int minutes) {
+        double hour_angle = 0, minute_angle = 0, actual_angle = 0;
+        hour_angle = (hours % 12) * 30 + (minutes * 0.5);
+        minute_angle = minutes * 6;
+        actual_angle = abs(hour_angle - minute_angle);
+        actual_angle = actual_angle > 180 ? 360-actual_angle:actual_angle; //Corner Case
+        return int(actual_angle);
+    }
+};
+
+//{ Driver Code Starts.
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int H,M;
+        
+        cin>>H>>M;
+
+        Solution ob;
+        cout << ob.getAngle(H,M) << endl;
+    }
+    return 0;
+}
+// } Driver Code Ends
