@@ -1,0 +1,71 @@
+Description : 
+Given n, need to find nth term of fibonacci series.
+
+Fibonacci Series : 
+fibo val :  0   1   1   2   3   5   8   13   21   34    55    89   144
+fibo num : 0th 1st 2nd 3rd 4th 5th 6th  7th  8th  9th  10th  11th  12th
+
+I/P : n = 5
+O/P : 5
+
+I/P : n = 10
+O/P : 55
+
+Source Code :
+#include<bits/stdc++.h>
+using namespace std;
+
+/* Iterative Way 1
+T.C => O(n-2);
+S.C => O(1)
+int findNthTerm(int n) {
+    int n1 = 0, n2 = 1, n3;
+    for(int i = 0; i <= n-2; i++) {
+        n3 = n1+n2;
+        n1 = n2;
+        n2 = n3;
+    }
+    return n3;
+}
+*/
+
+/* Iterative Way 2
+T.C => O(n-2);
+S.C => O(n+1)
+int findNthTerm(int n) {
+    int fibo[n+1];
+    fibo[0] = 0, fibo[1] = 1;
+    for(int i = 2; i <= n; i++) {
+        fibo[i] = fibo[i-1] + fibo[i-2];
+    }
+    return fibo[n];
+}
+*/
+
+/*
+// Recursive Way
+// T.C => O(n)
+// S.C => O(n) 
+int fibo(int n) {
+    if(n <= 1) return n;
+    else return fibo(n-1)+fibo(n-2);
+}
+*/
+
+/*
+// Recursive Way
+// T.C => O(n)
+// S.C => O(n) 
+int findNthTerm(int n1, int n2, int n) {
+    if(n == 1) return n2;
+    else return findNthTerm(n2, n1+n2, --n);   
+}
+*/
+
+int main() {
+    int n;
+    cin >> n;
+    cout << "Nth term : " << findNthTerm(0, 1, n);
+    // cout << "Nth term : " << fibo(n);
+    return 0;
+}
