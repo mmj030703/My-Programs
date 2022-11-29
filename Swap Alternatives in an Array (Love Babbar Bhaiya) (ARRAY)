@@ -1,0 +1,33 @@
+// Optimized Soln
+// T.C => O(n)
+// S.C => O(1)
+
+#include<bits/stdc++.h>
+using namespace std;
+
+void printArray(int arr[], int n) {
+  for(int i = 0; i < n; i++) {
+    cout << arr[i] << " "; 
+  }
+}
+
+
+// Approach is for odd and even number array for swapping alternates we need to swap n/2 times so in for loop we will iterate i n/2 times
+void swapAlternatives(int arr[], int n) {
+  for(int i = 0; i/2 < n/2; i += 2) {        // here i/2 is counter for every swap for eg: i = 0 => i/2 => 0/2 => 0
+    swap(arr[i], arr[i+1]);                  // i = 2 => i/2 => 2/2 => 1          i = 4 => i/2 => 4/2 => 2 and so on
+  }
+}
+
+int main() {
+  int n;
+  cin >> n;
+  int arr[100];
+  for(int i = 0; i < n; i++) {
+    cin >> arr[i];
+  }
+  swapAlternatives(arr, n);
+  cout << "Array after swapping : \n";
+  printArray(arr, n);
+  return 0;
+}
