@@ -1,0 +1,135 @@
+Problem Link :
+https://www.codingninjas.com/codestudio/problems/duplicate-in-array_893397?source=youtube&campaign=love_babbar_codestudio1&utm_source=youtube&utm_medium=affiliate&utm_campaign=love_babbar_codestudio1&leftPanelTab=0
+
+Description :
+You are given an array 'ARR' of size 'N' containing each number between 1 and 'N' - 1 at least once. There is a single integer value that is present in the array twice. 
+Your task is to find the duplicate integer value present in the array.
+
+For example:
+Consider ARR = [1, 2, 3, 4, 4], the duplicate integer value present in the array is 4. Hence, the answer is 4 in this case.
+
+Note:
+A duplicate number is always present in the given array.
+
+Sample Input 1:
+2 
+5
+4 2 1 3 1
+7
+6 3 1 5 4 3 2
+
+Sample Output 1:
+1
+3
+
+Sample Input 2:
+2
+6 
+5 1 2 3 4 2  
+9
+8 7 2 5 4 7 1 3 6
+
+Sample Output 2:
+2
+7
+
+Constraints:
+1 <= T <= 10
+2 <= N <= 10^5
+1 <= ARR[i] <= N - 1
+Where 'T' denotes the number of test cases, 'N' denotes the number of elements in the array, and 'ARR[i]' denotes the 'i-th' element of the array 'ARR'.
+Time limit: 1 sec
+
+Source Code :
+#include<bits/stdc++.h>
+
+int findDuplicate(vector<int> &arr) {
+    /*
+    //One of the Solution : Causing TLE 
+    sort(arr.begin(),arr.end());
+    for(int i = 0; i < arr.size(); i++) {
+        if(arr[i] == arr[i+1])
+            return arr[i];
+    }
+    return -1; // for successful execution
+    */
+    
+    //Love Babar Bhaiya Optimised Solution : Has a scope of more   
+    //optimization
+    
+    /* Love Babbar Bhaiya Soln :: Optimised Soln
+    // T.C => O(n + n) => O(n)
+    // S.C => O(1)
+    int ans = 0;
+    for(int i = 0; i < arr.size(); i++) {
+        ans = ans + arr[i];
+    }
+    
+    for(int i = 1; i < arr.size(); i++) {
+        ans = ans - i;
+    }
+    return ans;
+    */
+    
+    /* Optimised and same as above just doing xor instead of adding
+    int n = arr.size();
+    int arrTotal = 0;
+    for(int i = 0; i < n; i++) {
+        arrTotal ^= arr[i];
+    }
+    
+    for(int i = 1; i <= n-1; i++) {
+        arrTotal ^= i;
+    }
+    
+    return arrTotal;
+    */
+    
+    /* TLE Soln
+    // T.C => O(nlogn + n) => O(nlogn)
+    // S.C => O(1)
+    int n = arr.size();
+    int count = 1;
+    sort(arr.begin(), arr.end());
+    for(int i = 0; i < n; i++) {
+        if(arr[i] == arr[i+1]) count++;
+        else if(count == 2) return arr[i];
+    }
+    return 0;
+     */
+    
+    /* TLE Soln
+    // T.C => O(n + n) => O(n)
+    // S.C => O(n)
+    int n = arr.size();
+    unordered_map<int, int> mp;
+    for(int i = 0; i < n; i++) mp[arr[i]]++;
+    for(pair<int, int> i : mp) {
+        if(i.second == 2) return i.first;
+    }
+    return 0;
+    */
+    
+    /*
+    // T.C => O(n + n) => O(n)
+    // S.C => O(1)
+    int n = arr.size(), ans = 0;
+    for(int i = 0; i < n; i++) {
+        ans = ans ^ arr[i];
+    }
+    for(int i = 1; i < n; i++) {
+        ans ^= i;
+    }
+    return ans;
+    */
+    
+    /*
+    // T.C => O(n)
+    // S.C => O(1)
+    int n = arr.size(), ans = 0;
+    for(int i = 0; i < n; i++) {
+        if(i < n-1) ans += arr[i] - (i+1);
+        else  ans += arr[i];
+    }
+    return ans; 
+    */
