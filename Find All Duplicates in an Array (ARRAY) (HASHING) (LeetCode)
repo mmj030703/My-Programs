@@ -1,0 +1,105 @@
+Problem Link :
+https://leetcode.com/problems/find-all-duplicates-in-an-array/description/
+
+Description : 
+Given an integer array nums of length n where all the integers of nums are in the range [1, n] and each integer appears once or twice, return an array of all the 
+integers that appears twice.
+You must write an algorithm that runs in O(n) time and uses only constant extra space.
+
+Example 1:
+
+Input: nums = [4,3,2,7,8,2,3,1]
+Output: [2,3]
+Example 2:
+
+Input: nums = [1,1,2]
+Output: [1]
+Example 3:
+
+Input: nums = [1]
+Output: [] 
+
+Constraints:
+n == nums.length
+1 <= n <= 10^5
+1 <= nums[i] <= n
+Each element in nums appears once or twice.
+
+Source Code :
+/*
+// BruteForce Soln :: TLE Soln because expected to be done in O(n)
+// T.C => O(n^2)
+// S.C => O(n) n is auxilary space required to return answer.
+class Solution {
+public:
+    vector<int> findDuplicates(vector<int>& arr) {
+        vector<int> duplicates;
+        for(int i = 0; i < arr.size()-1; i++) {
+            int count = 1;
+            for(int j = i+1; j < arr.size(); j++) {
+                if(arr[i] == arr[j]) count++;
+            }
+            if(count == 2) duplicates.emplace_back(arr[i]);
+        }
+        return duplicates;
+    }
+};
+*/
+
+/*
+// Better than BruteForce Soln 
+// T.C => O(nlogn + n) => O(nlogn)
+// S.C => O(n) n is auxilary space required to return answer.
+class Solution {
+public:
+    vector<int> findDuplicates(vector<int>& arr) {
+        sort(arr.begin(), arr.end());
+        int count = 1;
+        vector<int> ans;
+        for(int i = 0; i < arr.size(); i++) {
+            if(i != arr.size()-1 && arr[i] == arr[i+1]) count++;
+            else if(count == 2) {
+                ans.push_back(arr[i]);
+                count = 1;
+            }
+        }    
+        return ans;
+    }
+};
+*/
+
+/*
+// Optimal Soln 
+// T.C => O(n + n) => O(n)
+// S.C => O(n + n) => O(n) n is auxilary space required to return answer.
+class Solution {
+public:
+    vector<int> findDuplicates(vector<int>& arr) {
+        unordered_map<int, int> mp;
+        vector<int> ans;
+        for(int i = 0; i < arr.size(); i++) mp[arr[i]]++;
+        for(pair<int, int> i : mp) {
+            if(i.second == 2) ans.emplace_back(i.first);
+        }
+        return ans;
+    }
+};
+*/
+
+/*
+// Most Optimised Soln
+// T.C => O(n)
+// S.C => O(1)
+class Solution {
+    public :
+    vector<int> findDuplicates(vector<int>& nums) {
+        vector<int> ans;
+        for(int i = 0; i < nums.size(); i++) {
+            int index = abs(nums[i]);
+            nums[index-1] = -nums[index-1];
+            if(nums[index-1] > 0) ans.push_back(abs(nums[i])); 
+        }
+        return ans;
+    }
+};
+*/
