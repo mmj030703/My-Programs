@@ -103,3 +103,35 @@ class Solution {
     }
 };
 */
+
+/*
+// Approach : just subtract each element by one so that for
+// accessing index we dont reach outside range of index of array.
+// After subtracting go to the array element of current arr[i]
+// i.e if we are at index 0 and its value is 7 so first we 
+// decrement it so it becomes 6 and now we go to index 6 and now 
+// add n to it.
+// and the duplicate element would be pointing to same index 
+// twice so we add 2n and after these two loops we check by
+// dividing each element by n if any time n is added twice so it
+// will always be greater or equal to 2;
+  
+// Optimal Soln :: Nishant Bhaiya Soln
+// T.C => O(n)
+// S.C => O(1)
+class Solution {
+    public :
+    vector<int> findDuplicates(vector<int>& nums) {
+        vector<int> ans;
+        for(int i = 0; i < nums.size(); i++) nums[i]--;
+        for(int i = 0; i < nums.size(); i++) {
+            int index = nums[i] % nums.size();
+            nums[index] += nums.size();
+        }
+        for(int i = 0; i < nums.size(); i++) {
+            if(nums[i] / nums.size() >= 2) ans.push_back(i+1);
+        }
+        return ans;
+    }
+};
+*/
