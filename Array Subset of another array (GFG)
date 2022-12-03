@@ -44,6 +44,23 @@ int main() {
 }
 // } Driver Code Ends
 
+/*
+// T.C => O(n^2) // here in this approach we are using linear search but we can use binary search to optimise it in T.C => O(mlogn) 
+// S.C => O(1)
+string isSubset(int a1[], int a2[], int n, int m) {
+    int count = 0;
+    for(int i = 0; i < n; i++) {
+        for(int j = 0; j < m; j++) {
+            if(a1[i] == a2[j]) {
+                count++;
+                break;
+            }
+        }
+    }    
+    if(count >= m) return "Yes";
+    return "No";
+}
+*/
 
 string isSubset(int a1[], int a2[], int n, int m) {
     /*
