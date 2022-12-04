@@ -1,0 +1,165 @@
+Problem Link : 
+https://www.codingninjas.com/codestudio/problems/pair-sum_697295?source=youtube&campaign=love_babbar_codestudio1&utm_source=youtube&utm_medium=affiliate&utm_campaign=love_babbar_codestudio1&leftPanelTab=0
+
+Description :
+Problem Statement
+You are given an integer array 'ARR' of size 'N' and an integer 'S'. Your task is to return the list of all pairs of elements such that each sum of elements of each pair equals 'S'.
+Note:
+Each pair should be sorted i.e the first value should be less than or equals to the second value.
+Return the list of pairs sorted in non-decreasing order of their first value. In case if two pairs have the same first value, the pair with a smaller second value should come first.
+
+Constraints:
+1 <= N <= 10^4
+-10^5 <= ARR[i] <= 10^5
+-2 * 10^5 <= 5 <= 2 * 10^5
+Time Limit: 1 sec
+
+Sample Input 1:
+5 5
+1 2 3 4 5
+Sample Output 1:
+1 4
+2 3
+Explaination For Sample Output 1:
+Here, 1 + 4 = 5
+      2 + 3 = 5
+Hence the output will be, (1,4) , (2,3).
+
+Sample Input 2:
+5 0
+2 -3 3 3 -2
+Sample Output 2:
+-3 3
+-3 3
+-2 2
+
+Source Code :
+// Optimal Soln :: 
+// T.C => O(n^2)
+// S.C => O(1)
+vector< vector<int> > pairSum(vector<int> &arr, int s){
+    int n = arr.size();
+    // Used to store result.
+    vector< vector<int> > ans;
+    // Checking sum for every element.
+    for(int i = 0; i < n; i++) {
+        for(int j = i + 1; j < n; j++) {
+            if(arr[i] + arr[j] == s) {
+                vector<int> pair;
+                pair.push_back(min(arr[i], arr[j]));
+                pair.push_back(max(arr[i], arr[j]));
+                sort(pair.begin(), pair.end());
+                ans.push_back(pair);
+            }
+        }
+    }
+    sort(ans.begin(),ans.end());  
+    return res;
+}
+
+
+/*
+// Approach ::
+// 1) Loop1 => We create a map to store frequency of array elements
+// 2) Loop2 => First we check whether the second element of one pair i.e. if a, b is a pair 
+//    so if we have a then b is a + b = c :: b = c - a.  
+// 3) Pre Requisite Info :: In array if there is a and b both then only a valid pair 
+//    is possible for eg:: arr [1,2,3,-1,-2] target = 0 so for this eg:: 
+//    if we consider one pair a is 1 and b is -1 so for 1 to make pair -1 should be there in arr
+// 4) Inside 2nd Loop we first calculate sum = s-arr[i] then search whether this sum is present
+//    in the map or not.If it is present i.e it's freq is greater than 0 then
+//    We check for two conditions one is edge case and other is normal case
+//    Edge Case : if a and b are both same so in this case so if the freq of the a is 
+//    greater than 1 than only a possible pair is possible i.e. is freq is 2 then one pair 
+//    can be made, if freq is 3 then 3 pair can be made, if freq is 4 then 6 pair can be made
+//    so a pattern is observed
+//    freq      pairs can be made(p)  p + k
+//      2            1 =>             0 + 1
+//      3            3 =>             1 + 2
+//      4            6 =>             3 + 3
+//      5           10 =>             6 + 4
+//      6           15 =>            10 + 5
+// So we observe that for every freq we are following sum of first freq natural numbers but only
+// a catch that here we start numbering from 2 instead of 1.
+// We create a variable iterate which contains no of pairs which can be made so that amount of 
+// time we itereate the while loop and add that pair i.e. a,b int ans vector.
+// after all we make map's key which contains sum i.e mp[sum] as 0 i.e. we exhaust it as we 
+// don't use it further.
+
+// General Case : 
+// in else part we calculate the count i.e how many times we need to put it into our ans vector
+// so for calculating we multiplt freq of a and b(s - arr[i]) i.e. mp[arr[i]] and mp[sum];
+// This many times i.e. count time we iterate our while loop and store the pair into vector
+// Then we exhaust the arr[i] and arr[sum] freq as their total pairs are stored into ans vector.
+
+// so maintaining the order we put the pairs in min and max fashion and at the end we sort the 
+// ans vector
+
+// Not Optimised Soln
+// T.C => O(n + n * (n+n+n) + nlogn) => O(n ^ 2)
+// S.C => O(n)
+#include <bits/stdc++.h>
+vector<vector<int>> pairSum(vector<int> &arr, int s){
+    unordered_map<int , int> mp;
+    vector<vector<int>> ans;
+    for(int i = 0; i < arr.size(); i++) mp[arr[i]]++;
+    for(int i = 0; i < arr.size(); i++) {
+        int sum = s - arr[i];
+        if(mp[sum] > 0) {
+            if(arr[i] == sum) {
+                 if(mp[sum] > 1) {   
+                    int iterate = 0;
+                    int k = 1;
+                    for(int j = 2; j <= mp[sum]; j++) {
+                        iterate += k;
+                        k++;
+                    }
+                    while(iterate--) {
+                        ans.push_back({arr[i], sum});
+                    }
+                    mp[arr[i]] = 0;
+                 }
+            }
+            else {
+                int count = mp[sum] * mp[arr[i]];
+                while(count--) {
+                    vector<int> temp;
+                    temp.push_back(arr[i]);
+                    temp.push_back(sum);
+                    sort(temp.begin(), temp.end());
+                    ans.push_back(temp);
+                }
+                mp[sum] = 0; mp[arr[i]] = 0;
+            }
+        }
+    }
+    sort(ans.begin(), ans.end());
+    return ans;
+}
+*/
+
+// This approach is similar to above just it is in reverse fashion and it is better than above
+// T.C and S.C is same as above
+#include <bits/stdc++.h>
+vector<vector<int>> pairSum(vector<int> &arr, int s) {
+    int n = arr.size();
+    // Map to store frequency of elements.
+    map<int, int> mp;
+    // This will store the result.
+    vector<vector<int>> ans; // storing ans
+    for (int a : arr) {
+        int count = mp[s - a];
+        vector<int> pair;
+        pair.push_back(min(a, s-a));
+        pair.push_back(max(a, s-a));
+        sort(pair.begin(), pair.end());
+        while (count--)
+        {
+            ans.push_back(pair);
+        }
+
+        mp[a] += 1;
+    }
+    sort(ans.begin(), ans.end());
+    return ans;
+}
