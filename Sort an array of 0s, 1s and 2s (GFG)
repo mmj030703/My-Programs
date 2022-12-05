@@ -38,6 +38,7 @@ using namespace std;
 
 // } Driver Code Ends
 /*
+// Approach : First sort all zeroes and then sort all one's and two's in second loop
 // BruteForce Soln 1 : we can do this with single loop also
 // T.C => O(N + N) => O(N)
 // S.C => O(1)
