@@ -1,0 +1,127 @@
+Problem Link :
+https://leetcode.com/problems/move-zeroes/submissions/
+
+Description : 
+Given an integer array nums, move all 0's to the end of it while maintaining the relative order of the non-zero elements.
+
+Note that you must do this in-place without making a copy of the array.
+
+Example 1:
+Input: nums = [0,1,0,3,12]
+Output: [1,3,12,0,0]
+
+Example 2:
+Input: nums = [0]
+Output: [0]
+ 
+Constraints:
+1 <= nums.length <= 10^4
+-2^31 <= nums[i] <= 2^31 - 1 
+
+Follow up: Could you minimize the total number of operations done?
+
+Source Code :
+class Solution {
+public:
+    void moveZeroes(vector<int>& nums) {
+        /* Approach 1 :: Better than Approach 2
+        // Not Optimised Soln
+        // T.C => O(n+n) => O(n)
+        // S.C => O(n)
+        vector<int> temp;
+        int zeroCount = 0;
+        for(int i = 0; i < nums.size(); i++) {
+            if(nums[i] != 0) temp.push_back(nums[i]);
+            else zeroCount++;
+        }
+        for(int i = 0; i < nums.size(); i++) {
+            if(i < nums.size()-zeroCount) nums[i] = temp[i];
+            else nums[i] = 0;
+        }
+        */
+
+        /* Approach 2
+        // BruteForce Soln :: Somewhat similar to Bubble Sort
+        // T.C => O(n + n^2) => O(n^2)
+        // S.C => O(1)
+        int count0 = 0;
+        for(int i = 0; i < nums.size(); i++) {
+            if(nums[i] == 0) count0++; 
+        }
+        while(count0--) {
+            for(int i = 0; i < nums.size()-1; i++) { // Here till n-1 as if we go till n than
+                if(nums[i] == 0) swap(nums[i], nums[i+1]);  // condition written below for n will
+            }                                               // give error as for n it will check for
+        }                                                   // n+1 which dosen't exist in nums so 
+        */                                                  // for that we run till n-1 only.
+
+        /* Approach 3
+        // In Place Soln :: Soln Got from Hint :: Optimization of Approach 1
+        // T.C => O(n+n+n) => O(n)
+        // S.C => O(1)
+        int zeroCount = 0;
+        for(int i = 0; i < nums.size(); i++) {
+            if(nums[i] == 0) zeroCount++;
+        }
+        int j = 0;
+        for(int i = 0; i < nums.size(); i++) {
+            if(nums[i] != 0) nums[j++] = nums[i];
+        }
+        for(int i = nums.size()-zeroCount; i < nums.size(); i++) {
+            nums[i] = 0;
+        }
+        */
+
+        /* Approach 4
+        // here we are swapping the non zero elements
+        // Here four condition are possible for i and j
+        //     i            j         to-do
+        //     0         non-zero      swap and i++ j++
+        //     0            0          j++
+        //  non-zero        0          i++ j++
+        //  non-zero     non-zero      i++ j++
+        // Optimised Soln :: Two Pointer :: Intution by Hint
+        // T.C => O(n)
+        // S.C => O(1)
+        int i = 0, j = 1; 
+        while(j < nums.size()) {
+            if(nums[i] == 0 && nums[j] != 0)
+                swap(nums[i++], nums[j++]);
+            else if(nums[i] == 0 && nums[j] == 0) j++;
+            else {
+                i++; j++;
+            }
+        }
+        */
+
+        /* Approach 5 :: Better Code than Approach
+        // Most Optimised Soln
+        // T.C => O(n)
+        // S.C => O(1)
+        int nonZero = 0;
+        for(int i = 0; i < nums.size(); i++) {
+            if(nums[i] != 0) {
+                swap(nums[i], nums[nonZero++]);
+            }
+        } 
+        */
+
+        /*
+        // Approach 6 :: Same as Approach 5
+        // For every non zero element we are storing from start and going ahed by 1 so by this
+        // we place all non zero elements in the left side of array and then for remaining place 
+        // we store all zeroes.
+        // T.C => O(n+n) => O(n)
+        // S.C => O(1)
+        int nonZero = 0;
+        // For placing all non zero elements to left
+        for(int i = 0; i < nums.size(); i++) {
+            if(nums[i] != 0) nums[nonZero++] = nums[i];
+        }
+        // For placing all zeroes to right
+        while(nonZero < nums.size()) {
+            nums[nonZero++] = 0;  
+        }
+        */
+    }
+};
