@@ -1,0 +1,79 @@
+Problem Link : 
+https://leetcode.com/problems/spiral-matrix/description/
+
+Description :
+Given an m x n matrix, return all elements of the matrix in spiral order.
+
+Example 1:
+Input: matrix = [[1,2,3],[4,5,6],[7,8,9]]
+
+Spiral Matrix Expln : 
+1 -> 2 -> 3
+          |
+4 -> 5    6
+|         |
+7 <- 8 <- 9
+Output: [1,2,3,6,9,8,7,4,5]
+
+Input: matrix = [[1,2,3,4],[5,6,7,8],[9,10,11,12]]
+1   2    3   4
+5   6    7   8 
+9  1 0  1 1  1 2 
+Output: [1,2,3,4,8,12,11,10,9,5,6,7]
+
+Constraints:
+m == matrix.length
+n == matrix[i].length
+1 <= m, n <= 10
+-100 <= matrix[i][j] <= 100
+
+Source Code :
+// Optimal Soln
+// T.C => O(row*col)
+// S.C => O(1)
+class Solution {
+public:
+    vector<int> spiralOrder(vector<vector<int>>& matrix) {
+        int rows = matrix.size();
+        int cols = matrix[0].size();
+        int totalCount = rows * cols;
+        int count = 0;
+        vector<int> ans;
+
+        int startRow = 0, endRow = rows - 1;
+        int startCol = 0, endCol = cols - 1;
+        while(count < totalCount) {
+            // Printing starting row
+            for(int i = startCol; count < totalCount && i <= endCol; i++) {
+                ans.push_back(matrix[startRow][i]);
+                count++;
+            }
+            startRow++;
+
+            // Printing end column
+            for(int i = startRow; count < totalCount && i <= endRow; i++) {
+                ans.push_back(matrix[i][endCol]);
+                count++;
+            }
+            endCol--;
+
+            // Printing end row
+            for(int i = endCol; count < totalCount && i >= startCol; i--) {
+                ans.push_back(matrix[endRow][i]);
+                count++;
+            }
+            endRow--;
+
+            // Printing start Column
+            for(int i = endRow; count < totalCount && i >= startRow; i--) {
+                ans.push_back(matrix[i][startCol]);
+                count++;
+            }
+            startCol++;
+        }
+        return ans;
+    }
+};
+
+TOPIC TAG :
+2D ARRAY      MATRIX         SIMULATION
