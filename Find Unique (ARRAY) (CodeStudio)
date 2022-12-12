@@ -37,8 +37,24 @@ Source Code :
 #include<bits/stdc++.h>
 using namespace std;
 
+/* Approach 1
+// BruteForce Soln
+// T.C => O(n^2)
+// S.C => O(1)
+int findUnique(int *arr, int n) {
+    for(int i = 0; i < n; i++) {
+        int key = arr[i], count = 0;
+        for(int j = 0; j < n; j++) {
+            if(key == arr[j]) count++;
+        }
+        if(count == 1) return key;
+    }
+    return false;
+}
+*/
+
 /*
-// Approach 1 :  Using Set
+// Approach 2 :  Using Set
 // T.C => O(n) + O(n^2) => O(n^2)
 // S.C => O(n)
 int findUnique(int *arr, int n) {
@@ -59,7 +75,7 @@ int findUnique(int *arr, int n) {
 */
 
 /*
-//Approach 2 : Sorting
+//Approach 3 : Sorting
 // T.C => O(nlogn) + O(n) => O(nlogn)
 // S.C => O(1)
 int findUnique(int *arr, int n) {
@@ -75,7 +91,7 @@ int findUnique(int *arr, int n) {
 */
 
 /*
-// Approach 3 :  Using Map
+// Approach 4 :  Using Map
 // T.C => O(n) + O(n) => O(n)
 // S.C => O(n)
 int findUnique(int *arr, int n) {
@@ -90,7 +106,7 @@ int findUnique(int *arr, int n) {
 }
 */
 
-// Approach 4 :  Using XOR
+// Approach 5 :  Using XOR
 // T.C => O(n)
 // S.C => O(1)
 int findUnique(int *arr, int n) {
