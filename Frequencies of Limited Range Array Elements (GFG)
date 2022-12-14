@@ -51,6 +51,30 @@ class Solution{
 };
 */
 
+/*
+// Better than BruteForce
+// T.C => O(nlogn + n) => O(nlogn)
+// S.C => O(n)
+class Solution{
+    public:
+    //Function to count the frequency of all elements from 1 to N in the array.
+    void frequencyCount(vector<int>& arr,int N, int P) {
+         vector<int> ans(N,0);
+        sort(arr.begin(), arr.end());
+        int count = 1;
+        for(int i = 0; i < N; i++) {
+            if(arr[i] <= N) {
+                if(arr[i] == arr[i+1]) count++;
+                else {
+                    ans[arr[i]-1] = count;
+                    count = 1;
+                }
+            }
+        }
+        arr = ans;
+    }
+};
+*/
 
 /* 2. Better than BruteForce Soln
 // T.C => O(n+n) => O(n)
