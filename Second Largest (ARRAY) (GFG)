@@ -1,0 +1,166 @@
+Problem Link :
+https://practice.geeksforgeeks.org/problems/second-largest3735/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=second-largest
+
+Description :
+Given an array Arr of size N, print second largest distinct element from an array.
+
+Example 1:
+Input: 
+N = 6
+Arr[] = {12, 35, 1, 10, 34, 1}
+Output: 34
+Explanation: The largest element of the 
+array is 35 and the second largest element
+is 34.
+
+Example 2:
+Input: 
+N = 3
+Arr[] = {10, 5, 10}
+Output: 5
+Explanation: The largest element of 
+the array is 10 and the second 
+largest element is 5.
+
+Your Task:
+You don't need to read input or print anything. Your task is to complete the function print2largest() which takes the array of integers arr and n as parameters and returns an integer denoting the answer. If 2nd largest element doesn't exist then return -1.
+
+Expected Time Complexity: O(N)
+Expected Auxiliary Space: O(1)
+
+Constraints:
+1 ≤ N ≤ 10^5
+1 ≤ Arri ≤ 10^5
+
+Source Code :
+//{ Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+//User function template for C++
+/*
+// BruteForce Soln
+// T.C => O(n+n+n+n) => O(n)
+// S.C => O(1)
+class Solution{
+public:	
+	// Function returns the second
+	// largest elements
+	int print2largest(int arr[], int n) {
+	    // Checking the largest element in the given array
+	    int changeVal_ofIndex = 0, max = -1;
+	    for(int i = 0; i < n; i++) {
+	        if(arr[i] > max) { 
+	            changeVal_ofIndex = i; // storing index of largest element in the array
+	            max = arr[i]; // storing largest element of the array in max
+	        }
+	    }
+	    
+	    // checking for duplicate largest elements in the array and changing their 
+	    // values for finding second largest element of the array in next upcoming loop 
+	    for(int i = 0; i < n; i++) {
+	        if(arr[i] == max)
+	            arr[i] = INT_MIN;
+	    }
+	    
+	    // Here finding the largest element not the
+	    // second largest as the previous largest element is changed to some random value and 
+	    // previous second largest element has now become the largest element in the array.
+	    max = -1;
+	    for(int i = 0; i < n; i++) {
+	        if(arr[i] > max) max = arr[i];
+	    }
+	    
+	    
+	    // End Case: Checking if no second largest element exist.
+	    // This is possible when all element are equal where all elements are largest as 
+	    // all are same. 
+	    /*
+	    int simiChk = 0;
+	    for(int i = 0; i < n-1; i++) {
+	        if(arr[i] == arr[i+1]) ++simiChk;
+	    }
+	    if(simiChk == n) return -1;
+	    return max;
+	}
+};
+*/
+
+/*
+// BruteForce Soln
+// T.C => O(nlogn + n) => O(nlogn)
+// S.C => O(1)
+class Solution{
+    public: 
+    int print2largest(int arr[], int n) {
+        sort(arr, arr+n);
+        for(int i = n-1; i > 0; i--) {
+            if(arr[i] != arr[i-1]) return arr[i-1];
+        } 
+        return -1;
+    }
+};
+*/
+
+/*
+// Better than BruteForce Soln
+// T.C => O(n+n) => O(n)
+// S.C => O(1)
+class Solution{
+    public: 
+    int print2largest(int arr[], int n) {
+        int max = -1, secondMax = -1;
+        for(int i = 0; i < n; i++) {
+            if(max < arr[i]) max = arr[i];
+        }
+        for(int i = 0; i < n; i++) {
+            if(secondMax < arr[i] && arr[i] < max) secondMax = arr[i];
+        }
+        return secondMax;
+    }
+};
+*/
+
+/*
+// Optimised Soln
+// T.C => O(n) 
+// S.C => O(1)
+class Solution{
+    public: 
+    int print2largest(int arr[], int n) {
+        int max = arr[0], secondMax = -1;
+        for(int i = 1; i < n; i++) {
+            if(max < arr[i]) {
+                secondMax = max;
+                max = arr[i];
+            }
+            else if(secondMax < arr[i] && arr[i] < max) secondMax = arr[i];
+        }
+        return secondMax;
+    }
+};
+*/
+
+//{ Driver Code Starts.
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int n;
+        cin >> n;
+        int arr[n];
+        for (int i = 0; i < n; i++) {
+            cin >> arr[i];
+        }
+        Solution ob;
+        auto ans = ob.print2largest(arr, n);
+        cout << ans << "\n";
+    }
+    return 0;
+}
+// } Driver Code Ends
+
+TOPIC TAGS :
+ARRAY     SEARCHING
+
