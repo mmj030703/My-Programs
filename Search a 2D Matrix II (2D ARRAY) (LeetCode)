@@ -1,0 +1,57 @@
+Problem Statement :
+https://leetcode.com/problems/search-a-2d-matrix-ii/description/
+
+Description :
+Write an efficient algorithm that searches for a value target in an m x n integer matrix matrix. This matrix has the following properties:
+Integers in each row are sorted in ascending from left to right.
+Integers in each column are sorted in ascending from top to bottom.
+ 
+Example 1:
+Input: matrix = [[1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26,30]], target = 5
+1   4   7 11 15
+2   5   8 12 19
+3   6   9 16 22 
+10 13  14 17 24
+18 21  23 26 30
+Output: true
+Example 2:
+
+Input: matrix = [[1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26,30]], target = 20
+Output: false
+ 
+Constraints:
+m == matrix.length
+n == matrix[i].length
+1 <= n, m <= 300
+-10^9 <= matrix[i][j] <= 10^9
+All the integers in each row are sorted in ascending order.
+All the integers in each column are sorted in ascending order.
+-10^9 <= target <= 10^9
+
+Source Code :
+/*
+// BruteForce Soln :: TLE Soln
+// T.C => O(n + n^2) => O(n^2)
+// S.C => O(1)
+// To reduce the search space we find the column till which we can find 
+// our target and then run loops till that search space only.
+class Solution {
+public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        int columnIndex = 0;
+        for(int i = 0; i < matrix[0].size(); i++) {
+            if(target >= matrix[0][i]) columnIndex = i;
+            else break;
+        }
+        for(int i = 0; i < matrix.size(); i++) {
+            for(int j = 0; j <= columnIndex; j++) {
+                if(target == matrix[i][j]) return true;
+            }
+        }
+        return false;
+    }
+};
+*/
+
+TOPIC TAGS: 
+2D ARRAY     SEARCHING  BINARY SEARCH
