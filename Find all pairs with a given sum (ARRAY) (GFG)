@@ -1,0 +1,159 @@
+Problem Link : 
+https://practice.geeksforgeeks.org/problems/find-all-pairs-whose-sum-is-x5808/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=find-all-pairs-whose-sum-is-x
+
+Description : 
+Given two unsorted arrays A of size N and B of size M of distinct elements, the task is to find all pairs from both arrays whose sum is equal to X.
+Note: All pairs should be printed in increasing order of u. For eg. for two pairs (u1,v1) and (u2,v2), if u12 then
+(u1,v1) should be printed first else second.
+
+Example 1:
+Input:
+A[] = {1, 2, 4, 5, 7}
+B[] = {5, 6, 3, 4, 8} 
+X = 9 
+Output: 
+1 8
+4 5 
+5 4
+Explanation:
+(1, 8), (4, 5), (5, 4) are the
+pairs which sum to 9.
+
+Example 2:
+Input:
+A[] = {-1, -2, 4, -6, 5, 7}
+B[] = {6, 3, 4, 0} 
+X = 8 
+Output:
+4 4 
+5 3
+
+Your Task:  
+You don't need to read input or print anything. Your task is to complete the function allPairs() which takes the array A[], B[], its size N and M respectively, and an integer X as inputs and returns the sorted vector pair values of all the pairs u,v where u belongs to array A and v belongs to array B. If no such pair exists return empty vector pair.
+
+Expected Time Complexity: O(NLog(N))
+Expected Auxiliary Space: O(N)
+
+Constraints:
+1 ≤ N, M ≤ 10^6
+-10^6 ≤ X, A[i], B[i] ≤ 10^6
+
+Source Code : 
+//{ Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+
+/*
+// BruteForce Soln
+// T.C => O(n^2 + nlogn) => O(n^2)
+// S.C => O(1)
+class Solution{
+    public:
+    vector<pair<int,int>> allPairs(int A[], int B[], int N, int M, int X)
+    {
+        vector<pair<int,int>> ans;
+        for(int i = 0; i < N; i++) {
+            for(int j = 0; j < M; j++) {
+                if(A[i] + B[j] == X) {
+                    ans.push_back({A[i], B[j]});
+                    break;
+                }
+            }
+        }
+        sort(ans.begin(), ans.end());
+        return ans;
+    }
+};
+*/
+
+/*
+// Optimised Soln
+// T.C => O(n + nlogn) => O(nlogn)
+// S.C => O(n)
+class Solution{
+    public:
+    vector<pair<int,int>> allPairs(int A[], int B[], int N, int M, int X)
+    {
+        unordered_map<int, int> mp;
+        vector<pair<int, int>> ans;
+        for(int i = 0; i < M; i++) mp[B[i]]++;
+        for(int i = 0; i < N; i++) {
+            int b = X - A[i];
+            if(mp[b] > 0) {
+                ans.push_back({A[i], b});
+                mp[b]--;
+            }
+        }
+        sort(ans.begin(), ans.end());
+        return ans;
+    }
+};
+*/
+
+/*
+// Better than BruteForce Soln
+// T.C => O(nlogn + nlogn + n) => O(nlogn)
+// S.C => O(1)
+class Solution{
+    public:
+    vector<pair<int,int>> allPairs(int A[], int B[], int N, int M, int X)
+    {
+       vector<pair<int, int>> ans;
+       sort(A, A+N);
+       sort(B, B+M);
+       int s = 0, e = M-1;
+       while(s < N && e >= 0) {
+           if(A[s] + B[e] == X) {
+               ans.push_back({A[s], B[e]}); 
+               s++; e--;
+           }
+           else if(A[s] + B[e] > X) e--;
+           else s++;
+       }
+       return ans;
+    }
+};
+*/
+
+
+
+//{ Driver Code Starts.
+int main() {
+	long long t;
+	cin >> t;
+	
+	while(t--){
+	    int N, M, X;
+	    cin >> N >> M >> X;
+        int A[N], B[M];
+        
+	    for(int i = 0;i<N;i++)
+	        cin >> A[i];
+	    for(int i = 0;i<M;i++)
+	        cin >> B[i];
+	        
+	   Solution ob;
+	   vector<pair<int,int>> vp = ob.allPairs(A, B, N, M, X);
+	   int sz = vp.size();
+        if(sz==0)
+        cout<<-1<<endl;
+        else{
+            for(int i=0;i<sz;i++){
+                if(i==0)
+                cout<<vp[i].first<<" "<<vp[i].second;
+                else
+                cout<<", "<<vp[i].first<<" "<<vp[i].second;
+            }
+            cout<<endl;
+        }
+	}
+	return 0;
+}
+// } Driver Code Ends
+
+TOPIC TAGS :
+ARRAY    TWO POINTER     HASHING
+
+
