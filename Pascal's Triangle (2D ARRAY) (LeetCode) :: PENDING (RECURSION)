@@ -1,0 +1,144 @@
+This Editorial Contains details of both LeetCode and GFG
+Solve Both Site's problem as both are unique.
+Problem Link (LeetCode) :
+https://leetcode.com/problems/pascals-triangle/description/
+
+Problem LinK (GFG) :
+https://practice.geeksforgeeks.org/problems/pascal-triangle0652/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=pascal-triangle
+
+Description :
+Given an integer numRows, return the first numRows of Pascal's triangle.
+In Pascal's triangle, each number is the sum of the two numbers directly above it as shown:
+
+Example 1:
+Input: numRows = 5
+Output: [[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1]]
+
+Example 2:
+Input: numRows = 1
+Output: [[1]]
+
+Constraints:
+1 <= numRows <= 30
+
+Source Code : 
+// Optimal Soln
+// Time Complexity : O(n^2)
+// Space Complexity : O(1)
+/*
+class Solution {
+public:
+    vector<vector<int>> generate(int numRows) {
+        vector<vector<int>> ans(numRows);
+        for(int i = 0; i < numRows; i++) {
+            ans[i].resize(i+1);
+            ans[i][0] = ans[i][i] = 1;
+            for(int j = 1; j < i; j++) {
+                ans[i][j] = ans[i-1][j-1] + ans[i-1][j];
+            }
+        }
+        return ans;
+    }
+};
+*/
+
+
+Decription (GFG) :
+Given a positive integer N, return the Nth row of pascal's triangle.
+Pascal's triangle is a triangular array of the binomial coefficients formed by summing up the elements of previous row.
+
+Example :
+1
+1 1
+1 2 1
+1 3 3 1
+For N = 3, return 3rd row i.e 1 2 1
+
+Example 1:
+
+Input:
+N = 4
+Output: 1 3 3 1
+Explanation: 4th row of pascal's triangle
+is 1 3 3 1.
+Example 2:
+
+Input:
+N = 5
+Output: 1 4 6 4 1
+Explanation: 5th row of pascal's triangle
+is 1 4 6 4 1.
+ 
+Your Task:
+Complete the function nthRowOfPascalTriangle() which takes n, as input parameters and returns an array representing the answer. The elements can be large so return it modulo 109 + 7. You don't to print answer or take inputs.
+
+Expected Time Complexity: O(N2)
+Expected Auxiliary Space: O(N2)
+
+Constraints:
+1 ≤ N ≤ 1000
+
+Source Code :
+//{ Driver Code Starts
+#include <bits/stdc++.h>
+
+using namespace std;
+#define ll long long
+
+// } Driver Code Ends
+// #define ll long long
+
+/*
+// Optimal Soln
+// T.C => O(n^2) => O(n^2)
+// S.C => O(n^2)
+class Solution{
+public:
+    vector<ll> nthRowOfPascalTriangle(int n) {
+         vector<vector<ll>> pascal(n);
+         for(int i = 0; i < n; i++) {
+             pascal[i].resize(i+1);
+             pascal[i][0] = pascal[i][i] = 1;
+             for(int j = 1; j < i; j++) {
+                 pascal[i][j] = (pascal[i-1][j-1] + pascal[i-1][j]) % 1000000007;
+             }
+         }
+         return pascal[n-1];
+    }
+};
+*/
+
+class Solution {
+  public : 
+    vector<ll> nthRowOfPascalTriangle(int n) {
+       
+    }
+};
+
+//{ Driver Code Starts.
+void printAns(vector<ll> &ans) {
+    for (auto &x : ans) {
+        cout << x << " ";
+    }
+    cout << "\n";
+}
+
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int n;
+        cin >> n;
+        Solution ob;
+        auto ans = ob.nthRowOfPascalTriangle(n);
+        printAns(ans);
+    }
+    return 0;
+}
+
+// } Driver Code Ends
+
+Topic Tags :
+Pattern     2D ARRAY      RECURSION     MATH
+
+
