@@ -1,0 +1,133 @@
+Problem Link :
+https://practice.geeksforgeeks.org/problems/kadanes-algorithm-1587115620/0?company[]=Visa&company[]=Visa&page=2&query=company[]Visapage2company[]Visa&utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=kadanes-algorithm
+
+Description :
+Given an array Arr[] of N integers. Find the contiguous sub-array(containing at least one number) which has the maximum sum and return its sum.
+
+Example 1:
+Input:
+N = 5
+Arr[] = {1,2,3,-2,5}
+Output:
+9
+Explanation:
+Max subarray sum is 9
+of elements (1, 2, 3, -2, 5) which 
+is a contiguous subarray.
+
+Example 2:
+Input:
+N = 4
+Arr[] = {-1,-2,-3,-4}
+Output:
+-1
+Explanation:
+Max subarray sum is -1 
+of element (-1)
+
+Your Task:
+You don't need to read input or print anything. The task is to complete the function maxSubarraySum() which takes Arr[] and N as input parameters and returns the sum of subarray with maximum sum.
+
+Expected Time Complexity: O(N)
+Expected Auxiliary Space: O(1)
+
+Constraints:
+1 ≤ N ≤ 10^6
+-10^7 ≤ A[i] ≤ 10^7
+
+Source Code :
+//{ Driver Code Starts
+#include<bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+class Solution{
+    public:
+    // arr: input array
+    // n: size of array
+    //Function to find the sum of contiguous subarray with maximum sum.
+    
+    // BruteForce Soln :: Checking for all possible sub arrays :: TLE Soln
+    // T.C => O(n^3)
+    // S.C => O(1)
+    /*
+    long long maxSubarraySum(int arr[], int n){
+        long long maxi = INT_MIN;
+        for(int i = 0; i < n; i++) {
+            long long sum = 0;
+            for(int j = i; j < n; j++) {
+                for(int k = j; k <= j; k++) {
+                    sum += arr[k];
+                    if(sum > maxi) maxi = sum;
+                }
+            }
+        }
+        return maxi;
+    }
+    */
+    
+    // BruteForce Soln :: TLE Soln
+    // T.C => O(n^2)
+    // S.C => O(1)
+    /*
+    long long maxSubarraySum(int arr[], int n){
+        long long maxi = INT_MIN;
+        for(int i = 0; i < n; i++) {
+            long long sum = 0;
+            for(int j = i; j < n; j++) {
+                sum += arr[j];
+                if(maxi < sum) maxi = sum;
+            }
+        }
+        return maxi;
+    }
+    */
+    
+    /*
+    // Optimal Soln
+    // Kadane's Algorithm ::
+    // Works on three steps :
+    // 1) First add current element in sum.
+    // 2) put max of (sum,maxi) in maxi 
+    // 3) check if sum < 0 then assign sum = 0.
+    
+    // T.C => O(n)
+    // S.C => O(1)
+    #define ll long long    // macro created
+    ll maxSubarraySum(int arr[], int n){
+        ll maxi = INT_MIN, sum = 0;
+        for(int i = 0; i < n; i++) {
+            sum += arr[i];
+            maxi = max(maxi, sum);
+            if(sum < 0) sum = 0;
+        }
+        return maxi;   
+    }
+    */
+};
+
+//{ Driver Code Starts.
+int main()
+{
+    int t,n;
+    
+    cin>>t; //input testcases
+    while(t--) //while testcases exist
+    {
+        
+        cin>>n; //input size of array
+        
+        int a[n];
+        
+        for(int i=0;i<n;i++)
+            cin>>a[i]; //inputting elements of array
+            
+        Solution ob;
+        
+        cout << ob.maxSubarraySum(a, n) << endl;
+    }
+}
+// } Driver Code Ends
+
+TOPIC TAGS :
+ARRAYS        SUB-ARRAYS     DP       Kadane's Algorithm
