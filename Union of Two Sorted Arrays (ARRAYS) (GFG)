@@ -1,0 +1,294 @@
+Problem Link :
+https://practice.geeksforgeeks.org/problems/union-of-two-sorted-arrays-1587115621/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=union-of-two-sorted-arrays
+
+Description : 
+Union of two arrays can be defined as the common and distinct elements in the two arrays.
+Given two sorted arrays of size n and m respectively, find their union.
+
+Example 1:
+
+Input: 
+n = 5, arr1[] = {1, 2, 3, 4, 5}  
+m = 3, arr2 [] = {1, 2, 3}
+Output: 1 2 3 4 5
+Explanation: Distinct elements including 
+both the arrays are: 1 2 3 4 5.
+ 
+Example 2:
+Input: 
+n = 5, arr1[] = {2, 2, 3, 4, 5}  
+m = 5, arr2[] = {1, 1, 2, 3, 4}
+Output: 1 2 3 4 5
+Explanation: Distinct elements including 
+both the arrays are: 1 2 3 4 5.
+ 
+
+Example 3:
+Input:
+n = 5, arr1[] = {1, 1, 1, 1, 1}
+m = 5, arr2[] = {2, 2, 2, 2, 2}
+Output: 1 2
+Explanation: Distinct elements including 
+both the arrays are: 1 2.
+
+Your Task: 
+You do not need to read input or print anything. Complete the function findUnion() that takes two arrays arr1[], arr2[], and their size n and m as input parameters 
+and returns a list containing the union of the two arrays. 
+
+Expected Time Complexity: O(n+m).
+Expected Auxiliary Space: O(n+m).
+ 
+Constraints:
+1 <= n, m <= 10^5
+1 <= arr[i], brr[i] <= 10^6
+
+Source Code :
+//{ Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+
+// } Driver Code Ends
+class Solution{
+    public:
+    //arr1,arr2 : the arrays
+    // n, m: size of arrays
+    //Function to return a list containing the union of the two arrays. 
+    
+    // BruteForce Soln :: Approach 1
+    // T.C => O(nlogn + nlogn + n) => O(nlogn)
+    // S.C => O(n)
+    /*
+    vector<int> findUnion(int arr1[], int arr2[], int n, int m)
+    {
+        vector<int> ans;
+        map<int,int> mp;
+        for(int i = 0; i < n; i++) mp[arr1[i]]++;
+        for(int i = 0; i < m; i++) mp[arr2[i]]++;
+        for(auto i : mp) ans.push_back(i.first);
+        return ans;
+    }
+    */
+    
+    /*
+    // Approach 2 :
+    // T.C => O(n + n + m) => O(n)
+    // S.C => O(n)
+    vector<int> findUnion(int arr1[], int arr2[], int n, int m) {
+        vector<int> ans;
+        unordered_set<int> s;
+        unordered_set<int> :: iterator it;  
+        int i = 0, j = 0;
+        while(i < n && j < m) {
+            if(arr1[i] < arr2[j] && s.find(arr1[i]) == s.end()) {
+                s.insert(arr1[i]);
+                ans.push_back(arr1[i]);
+                i++;
+            }
+            else if(arr1[i] > arr2[j] && s.find(arr2[j]) == s.end()) {
+                s.insert(arr2[j]);
+                ans.push_back(arr2[j]);
+                j++;
+            }
+            else if(arr1[i] == arr2[j] && s.find(arr1[i]) == s.end()) {
+                s.insert(arr1[i]);
+                ans.push_back(arr1[i]);
+                i++; j++;
+            }
+        }
+        while(i < n) {
+            if(s.find(arr1[i]) == s.end()) {
+                s.insert(arr1[i]);
+                ans.push_back(arr1[i]);
+                i++;
+            }
+        }
+        while(j < m) {
+            if(s.find(arr2[j]) == s.end()) {
+                s.insert(arr2[j]);
+                ans.push_back(arr2[j]);
+                j++;
+            }
+        }
+        return ans;
+    }
+    */
+    
+    // Approach 3 : We store elements in temp as we do for intersection of two arrays (stored all duplicates in sorted fashion)
+    // T.C => O(n + n + n + n) => O(n)
+    // S.C => O(n+m)
+    /*
+    vector<int> findUnion(int arr1[], int arr2[], int n, int m) {
+        vector<int> ans;
+        vector<int> temp(n+m);
+        int i = 0, j = 0, ind = 0;
+        while(i < n && j < m) {
+            if(arr1[i] == arr2[j]) {
+                // temp.push_back(arr1[i]);
+                temp[ind++] = arr1[i];
+                i++; j++;
+            }
+            else if(arr1[i] < arr2[j]) {
+                // temp.push_back(arr1[i++]);
+                temp[ind++] = arr1[i++];
+            }
+            else {
+                // temp.push_back(arr2[j++]);
+                temp[ind++] = arr2[j++];
+            }
+        }
+        while(i < n) {
+            // temp.push_back(arr1[i++]);
+            temp[ind++] = arr1[i++];
+        }
+        while(j < m) {
+            // temp.push_back(arr2[j++]);
+            temp[ind++] = arr2[j++];
+        }
+        for(int i = 0; i < ind; i++) {
+            if(temp[i] != temp[i+1]) ans.push_back(temp[i]);
+        }
+        return ans;
+    }
+    */
+    
+    // Optimal Soln :: Approach 4
+    // T.C => O(n + n + n) => O(n)
+    // S.C => O(1)
+    /*
+    vector<int> findUnion(int arr1[], int arr2[], int n, int m) {
+        vector<int> ans;
+        int i = 0, ip = 0;
+        int j = 0, jp = 0;
+        while(i < n && j < m) {
+            if(arr1[ip] == arr1[ip+1]) {
+                ip++; i++;
+                continue;
+            }
+            else if(arr2[jp] == arr2[jp+1]) {
+                jp++; j++;
+                continue;
+            }
+            
+            if(arr1[i] < arr2[j]) {
+                ans.push_back(arr1[i]); 
+                i++; ip++;
+            }
+            else if(arr1[i] > arr2[j]) {
+                ans.push_back(arr2[j]);
+                j++; jp++;
+            }
+            else if(arr1[i] == arr2[j]) {
+                ans.push_back(arr1[i]);
+                i++; j++; ip++; jp++;
+            }
+        }
+        while(i < n) {
+            if(arr1[ip] == arr1[ip+1]) {
+                ip++; i++;
+                continue;
+            }
+            ans.push_back(arr1[i]);
+            i++; ip++;
+        }
+        while(j < m) {
+            if(arr2[jp] == arr2[jp+1]) {
+                jp++; j++;
+                continue;
+            }
+            ans.push_back(arr2[j]);
+            j++; jp++;
+        }
+        return ans;
+    }
+    */
+    
+    
+    /*
+    // Optimal Soln :: Approach 5
+    // T.C => O(n + n + m) => O(n)
+    // S.C => O(1)
+    vector<int> findUnion(int a[], int b[], int n, int m) {
+        vector<int> ans;
+        int i = 0, j = 0;
+        while(i < n && j < m) {
+            if(a[i] == b[j]) {
+                if(ans.size() > 0 && ans.at(ans.size()-1) != a[i]) {
+                    ans.push_back(a[i]);
+                }
+                else if(ans.size() == 0) ans.push_back(a[i]); // if at ind 0
+                i++;
+            }
+            else if(a[i] < b[j]) {
+                if(ans.size() > 0 && ans.at(ans.size()-1) != a[i]) {
+                    ans.push_back(a[i]);
+                }
+                else if(ans.size() == 0) ans.push_back(a[i]);
+                i++;
+            }
+            else {
+                if(ans.size() > 0 && ans.at(ans.size()-1) != b[j]) {
+                    ans.push_back(b[j]);
+                }
+                else if(ans.size() == 0) ans.push_back(b[j]);
+                j++;
+            }
+        }
+        while(i < n) {
+            if(ans.size() > 0 && ans.at(ans.size()-1) != a[i]) {
+                ans.push_back(a[i]);
+            }
+            else if(ans.size() == 0) ans.push_back(a[i]);
+            i++;
+        }
+        while(j < m) {
+            if(ans.size() > 0 && ans.at(ans.size()-1) != b[j]) {
+                ans.push_back(b[j]);
+            }
+            else if(ans.size() == 0) ans.push_back(b[j]);
+            j++;
+        }
+        return ans;
+    }
+    */
+};
+
+//{ Driver Code Starts.
+
+int main() {
+	
+	int T;
+	cin >> T;
+	
+	while(T--){
+	    
+	    
+	    
+	    int N, M;
+	    cin >>N >> M;
+	    
+	    int arr1[N];
+	    int arr2[M];
+	    
+	    for(int i = 0;i<N;i++){
+	        cin >> arr1[i];
+	    }
+	    
+	    for(int i = 0;i<M;i++){
+	        cin >> arr2[i];
+	    }
+	    Solution ob;
+	    vector<int> ans = ob.findUnion(arr1,arr2, N, M);
+	    for(int i: ans)cout<<i<<' ';
+	    cout << endl;
+	    
+	}
+	
+	return 0;
+}
+// } Driver Code Ends
+
+TOPIC TAGS :
+ARRAYS      SET     HASHING        TWO POINTERS      FOUR POINTERS
+
+
