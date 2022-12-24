@@ -1,0 +1,119 @@
+Problem Link : 
+Given an array nums containing n distinct numbers in the range [0, n], return the only number in the range that is missing from the array.
+
+Example 1:
+Input: nums = [3,0,1]
+Output: 2
+Explanation: n = 3 since there are 3 numbers, so all numbers are in the range [0,3]. 2 is the missing number in the range since it does not appear in nums.
+
+Example 2:
+Input: nums = [0,1]
+Output: 2
+Explanation: n = 2 since there are 2 numbers, so all numbers are in the range [0,2]. 2 is the missing number in the range since it does not appear in nums.
+
+Example 3:
+Input: nums = [9,6,4,2,3,5,7,0,1]
+Output: 8
+Explanation: n = 9 since there are 9 numbers, so all numbers are in the range [0,9]. 8 is the missing number in the range since it does not appear in nums.
+ 
+Constraints:
+n == nums.length
+1 <= n <= 10^4
+0 <= nums[i] <= n
+All the numbers of nums are unique.
+ 
+Follow up: Could you implement a solution using only O(1) extra space complexity and O(n) runtime complexity?
+
+Source Code :
+class Solution {
+public:
+    // BruteForce Soln :: Approach 1
+    // T.C => O(n^2 + n) => O(n^2)
+    // S.C => O(n)
+    /*
+    int missingNumber(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> ans; // don't declare size at start to avoid error
+        for(int i = 0; i <= n; i++) {
+            int count = 0;
+            for(int j = 0; j < n; j++) {
+                if(i == nums[j]) count++;
+            }
+            ans.push_back(count);
+        }
+        for(int i = 0; i < ans.size(); i++) {
+            if(ans[i] == 0) return i;
+        }  
+        return -1;
+    }
+    */
+
+    /*
+    // Better than BruteForce Soln :: Approach 2
+    // T.C => O(nlogn + n) => O(nlogn)
+    // S.C => O(1) 
+    int missingNumber(vector<int>& nums) {
+        int n = nums.size();
+        sort(nums.begin(), nums.end());
+        for(int i = 0; i < n; i++) {
+            if(i != nums[i]) return i;
+        }
+        if(n != nums[n-1]) return n;
+        return -1;
+    }
+    */
+
+    /*
+    // Better than Approach 2 : Approach 3
+    // T.C => O(n + n) => O(n)
+    // S.C => O(n)
+    int missingNumber(vector<int>& nums) {
+        unordered_map<int,int> mp;
+        for(int i = 0; i < nums.size(); i++) mp[nums[i]]++;
+        for(int i = 0; i <= nums.size()+1; i++) {
+            if(mp[i] == 0) return i;
+        }
+        return -1;
+    }
+    */
+
+    
+    // Optimal Soln :: Approach 4 :: XOR approach or Add all from 1 to n and  (Help taken from topic tags) 
+    // Subtract all elements from array so remaining is our final ans.
+    // Same approach as find duplicate in array containing (1 - n-1) elements
+    // and a element in between (1 - n-1) present twice 
+    // T.C => O(n + n) => O(n)
+    // S.C => O(1)
+    /*
+    int missingNumber(vector<int>& nums) {
+        int missingNum = 0, n = nums.size();
+        for(int i = 0; i <= n; i++) missingNum += i;
+        for(int i = 0; i < n; i++) missingNum -= nums[i];
+        return missingNum;
+    }
+    */
+
+    /* Approach 5 : (Help taken from youtube)
+    // Most Optimal Soln :: Basic Math :: Sum of first n Natural Number
+    // => Same as above approach where we find sum of 1st n natural number
+    //    using loop and here in this approach we find sum using formula 
+    //    n*(n+1)/2
+    // => Then as above approach we subtract the sum of array elements from 
+    // => sum of first n natural number.
+    // T.C => O(n)
+    // S.C => O(1)
+    int missingNumber(vector<int>& nums) {
+        int n = nums.size();
+        int sumOfFirstN = n*(n+1)/2;
+        int numsSum = 0;
+        for(int i = 0; i < n; i++) numsSum += nums[i];
+        return sumOfFirstN - numsSum;
+    }
+    */
+};
+
+
+TOPIC TAGS :
+ARRAY    BINARY SEARCH    SORTING      HASHING        BIT MANIPULATION    MATH
+
+
