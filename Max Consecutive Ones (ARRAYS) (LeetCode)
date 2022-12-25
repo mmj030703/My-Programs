@@ -1,0 +1,105 @@
+Problem Link : 
+https://leetcode.com/problems/max-consecutive-ones/description/
+
+Decription :
+Given a binary array nums, return the maximum number of consecutive 1's in the array.
+
+Example 1:
+Input: nums = [1,1,0,1,1,1]
+Output: 3
+Explanation: The first two digits or the last three digits are consecutive 1s. The maximum number of consecutive 1s is 3.
+
+Example 2:
+Input: nums = [1,0,1,1,0,1]
+Output: 2
+ 
+Constraints:
+1 <= nums.length <= 10^5
+nums[i] is either 0 or 1.
+
+Source Code : 
+class Solution {
+public:
+    /*
+    // BruteForce Soln :: Approach 1
+    // T.C => O(n^2)
+    // S.C => O(1)
+    int findMaxConsecutiveOnes(vector<int>& nums) {
+        int maxOneCount = 0;
+        for(int i = 0; i < nums.size(); i++) {
+            if(nums[i] == 0) continue;
+            int count = 1;
+            for(int j = i+1; j < nums.size(); j++) {
+                if(nums[i] != nums[j]) break;
+                count++;
+            } 
+            if(maxOneCount < count) maxOneCount = count;
+        }
+        return maxOneCount;
+    }
+    */
+
+    /*
+    // Optimal Soln :: Approach 2
+    // T.C => O(n)
+    // S.C => O(1)
+    int findMaxConsecutiveOnes(vector<int>& nums) {
+        int consCount = 1;       // consecutive count
+        int maxConsCount = 0;    // max consecutive count
+        int zeroCount = 0;
+        for(int i = 0; i < nums.size()-1; i++) {
+            if(nums[i] == 0) {
+                zeroCount++;
+                continue;
+            }
+            if(nums[i] == nums[i+1]) consCount++;
+            else if(consCount > maxConsCount) {
+                maxConsCount = consCount;
+                consCount = 1;
+            }
+            else consCount = 1;
+        }
+        if(nums[nums.size()-1] == 0) zeroCount++;
+        if(zeroCount != nums.size() && consCount > maxConsCount) maxConsCount = consCount;
+        return maxConsCount;
+    }
+    */
+
+    /*
+    // Optimal Soln :: Approach 3
+    // T.C => O(n)
+    // S.C => O(1)
+    int findMaxConsecutiveOnes(vector<int>& nums) {
+        int consCount = 0;       // consecutive count
+        int maxConsCount = 0;    // max consecutive count
+        for(int i = 0; i < nums.size(); i++) {
+            if(nums[i] == 1) consCount++;
+            else if(consCount > maxConsCount) {
+                maxConsCount = consCount;
+                consCount = 0;
+            }
+            else consCount = 0;
+        }
+        if(consCount > maxConsCount) maxConsCount = consCount;
+        return maxConsCount;
+    }
+    */
+
+    /*
+    // Most Optimal Soln :: Approach 4
+    // T.C => O(n)
+    // S.C => O(1)
+    int findMaxConsecutiveOnes(vector<int>& nums) {
+        int count = 0, maxCount = 0;
+        for(int i = 0; i < nums.size(); i++) {
+            if(nums[i] == 1) count++;
+            else count = 0;
+            maxCount = max(maxCount, count);
+        }
+        return maxCount;
+    }
+    */
+};
+
+TOPIC TAGS :
+ARRAY      
