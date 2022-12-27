@@ -5,6 +5,10 @@ Description :
 Given an array of integers nums and an integer k, return the total number of subarrays whose sum equals to k.
 A subarray is a contiguous non-empty sequence of elements within an array.
 
+Approach and Intution in LeetCode Notes of the same Question Page
+Image Explanation of this Problem :
+https://github.com/mmj030703/My-Programs/issues/1
+
 Example 1:
 Input: nums = [1,1,1], k = 2
 Output: 2
