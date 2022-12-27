@@ -1,0 +1,131 @@
+Problem Link :
+https://practice.geeksforgeeks.org/problems/longest-sub-array-with-sum-k0809/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=longest-sub-array-with-sum-k
+
+Description :
+Given an array containing N integers and an integer K., Your task is to find the length of the longest Sub-Array with the sum of the elements equal to the given value K.
+
+Image Explanation of Basic Approach of this problem
+https://github.com/mmj030703/My-Programs/issues/1
+
+Example 1:
+Input :
+A[] = {10, 5, 2, 7, 1, 9}
+K = 15
+Output : 4
+Explanation:
+The sub-array is {5, 2, 7, 1}.
+
+Example 2:
+Input : 
+A[] = {-1, 2, 3}
+K = 6
+Output : 0
+Explanation: 
+There is no such sub-array with sum 6.
+
+Your Task:
+This is a function problem. The input is already taken care of by the driver code. You only need to complete the function lenOfLongSubarr() that takes an array (A), 
+sizeOfArray (n),  sum (K) and returns the required length of the longest Sub-Array. The driver code takes care of the printing.
+
+Expected Time Complexity: O(N).
+Expected Auxiliary Space: O(N).
+
+Constraints:
+1<=N<=10^5
+-10^5<=A[i], K<=10^5
+
+Source Code : 
+//{ Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+
+// } Driver Code Ends
+class Solution{
+    public:
+    /*
+    // Optimal Soln :: Using Prefix Sum and Hashing
+    // T.C => O(n)
+    // S.C => O(n)
+    int lenOfLongSubarr(int A[],  int N, int K)  { 
+        unordered_map<int,int> mp;
+        int sum = 0, maxCount = 0;
+        for(int i = 0; i < N; i++) {
+            sum += A[i]; // we add current element into sum
+            if(sum == K) maxCount = i+1;  // if sum == k then store i+1 as it is the
+            if(mp.find(sum-K) != mp.end()) { // largest subarray as it is sum of ele
+                maxCount = max(maxCount, i-mp[sum-K]); // till current element
+            }
+            if(mp.find(sum) == mp.end()) mp[sum] = i; // we will add sum in map if 
+        }                                             // it not exist and if it exist
+        return maxCount;                              // then we will not update as
+    }                                                 // we want prefix sum of very 
+    */                                                // 1st time as if we add it 2nd
+                                                      // then the distance will reduce
+    /*                                                // from sum-k subarray
+    // BruteForce Soln :: TLE Soln
+    // T.C => O(n^3)
+    // S.C => O(1)
+    int lenOfLongSubarr(int A[],  int N, int K)  { 
+        int maxCount = 0;
+        for(int i = 0; i < N; i++) {
+            for(int j = i; j < N; j++) {
+                int sum = 0;
+                for(int l = i; l <= j; l++) {
+                    sum += A[l];
+                    if(A[l] == K) maxCount = max(maxCount, 1);
+                    if(sum == K) maxCount = max(maxCount, l-i+1);
+                }
+            }
+        }
+        return maxCount;
+    }
+    */
+    
+    /*
+    // Better than BruteForce Soln :: TLE Soln
+    // T.C => O(n^2)
+    // S.C => O(1)
+    int lenOfLongSubarr(int A[],  int N, int K)  { 
+        int maxCount = 0;
+        for(int i = 0; i < N; i++) {
+            int sum = 0;
+            for(int j = i; j < N; j++) {
+                sum += A[j];
+                if(A[j] == K) maxCount = max(maxCount, 1);
+                if(sum == K) maxCount = max(maxCount, j-i+1);
+            }
+        }
+        return maxCount;
+    }
+    */
+};
+
+
+//{ Driver Code Starts.
+
+int main() {
+	//code
+	
+	int t;cin>>t;
+	while(t--)
+	{
+	    int n, k;
+	    cin>> n >> k;
+	    int a[n];
+	    
+	    for(int i=0;i<n;i++)
+	        cin>>a[i];
+	   Solution ob;
+	   cout << ob.lenOfLongSubarr(a, n , k)<< endl;
+	    
+	}
+	
+	return 0;
+}
+// } Driver Code Ends
+
+TOPIC TAGS 
+ARRAYS      SUBARRAYS       PREFIX SUM      HASHING
+
+
