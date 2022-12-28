@@ -34,7 +34,7 @@ Constraints:
 Source Code :
 #include <bits/stdc++.h> 
 vector<vector<int>> findTriplets(vector<int>arr, int n, int K) {
-	/*
+    /*
     // BruteForce Soln :: TLE Soln :: 1st Approach
     // T.C => O(n^3)
     // S.C => O(n)
@@ -59,7 +59,6 @@ vector<vector<int>> findTriplets(vector<int>arr, int n, int K) {
     }
     return ans;
     */
-    
     
     /* Optimised Soln :: 3Sum using 2Sum approach :: 3rd Approach
     // T.C => O(n^2)  // two while loops in inner loop are negligible
@@ -118,4 +117,5 @@ vector<vector<int>> findTriplets(vector<int>arr, int n, int K) {
     */
 }
 
-
+TOPIC TAGS :
+ARRAYS      TWO POINTER
