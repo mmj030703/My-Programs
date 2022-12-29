@@ -53,5 +53,42 @@ public:
 };
 */
 
+/*
+	// Better than Above but same time complexity :: here we reduce some search space
+	int matSearch (vector <vector <int>> &mat, int N, int M, int X)
+	{
+	    int startCol = 0, endCol = M-1;
+	    for(int i = 0; i < M; i++) { // we calculate the start and end columns here
+	        if(mat[N-1][i] >= X) {
+	            if(startCol == -1) startCol = i;
+	            else endCol = i;
+	        } 
+	    }
+	    for(int i = 0; i < N; i++) {
+	        for(int j = startCol; j <= endCol; j++) {
+	            if(mat[i][M-1] < X) break; // row is sorted and if last value of row
+	            if(mat[i][j] == X) return 1; // is smaller and X is big so we will
+	        }                              // not get X as all elem behind will be
+	    }                                   // then last so if last is small than X 
+	    return 0;                          // then all elem behind is also small than
+	}                                      // X.
+	*/
+	
+	/*
+	// Optimal Soln
+	// T.C => O(N+M)
+	// S.C => O(1)
+	int matSearch (vector <vector <int>> &mat, int N, int M, int X)
+	{
+	    int i = 0, j = M-1;
+	    while(i < N && j >= 0) {
+	        if(mat[i][j] == X) return 1;
+	        else if(mat[i][j] < X) i++;
+	        else j--;
+	    }
+	    return 0;
+	}
+	*/
+
 TOPIC TAGS: 
 2D ARRAY     SEARCHING  BINARY SEARCH
