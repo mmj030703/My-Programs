@@ -1,0 +1,102 @@
+No Problem on any Platform solve it on IDE.
+
+Description : 
+Given an integer array nums, print the subarray which has the largest sum.
+
+ 
+
+Example 1:
+
+Input: nums = [-2,1,-3,4,-1,2,1,-5,4]
+Output: [4,-1,2,1]
+Explanation: [4,-1,2,1] has the largest sum = 6.
+
+Example 2:
+Input: nums = [1]
+Output: [1]
+
+Example 3:
+Input: nums = [5,4,-1,7,8]
+Output: [5,4,-1,7,8] has the largest sum = 23
+ 
+
+Constraints:
+1 <= nums.length <= 10^5
+-10^4 <= nums[i] <= 10^4
+
+Source Code :
+/* Approach 1
+// BruteForce Soln 
+// T.C => O(n^3)
+// S.C => O(n)
+#include<bits/stdc++.h>
+using namespace std;
+
+void printMaxSumSubarray(vector<int> &nums, int n) {
+    vector<int> ans;
+    int maxSum = 0;
+    for(int i = 0; i < n; i++) {
+        int sum = 0;
+        for(int j = i; j < n; j++) {
+            sum += nums[j];
+            if(sum > maxSum) {
+                maxSum = sum;
+                ans.clear();
+                for(int k = i; k <= j; k++) {
+                    ans.push_back(nums[k]);
+                }
+            }
+        }
+    }
+    cout << "Max Sum Subarray : " << maxSum << endl;
+    for(int i = 0; i < ans.size(); i++) cout << ans[i] << " ";
+}
+
+int main() {
+    int n;
+    cin >> n;
+    vector<int> nums(n);
+    for(int i = 0; i < n; i++) cin >> nums[i];
+    printMaxSumSubarray(nums, n);
+    return 0;
+}
+*/
+
+/* Approach 2 :: Kadane's Algorithm
+// Optimal Soln 
+// T.C => O(n + n + n) => O(n)
+// S.C => O(1)
+#include<bits/stdc++.h>
+using namespace std;
+
+void printMaxSumSubarray(vector<int> &nums, int n) {
+    int maxSum = 0, maxInd = 0, sum = 0, startInd = 0;
+    for(int i = 0; i < n; i++) {
+        sum += nums[i];
+        if(sum > maxSum) {
+            maxSum = sum;
+            maxInd = i;
+        }
+        if(sum < 0) sum = 0;
+    }
+    cout << "Max Sum Subarray : " << maxSum << endl;
+    for(int i = maxInd; i >= 0; i--) {
+        maxSum -= nums[i];
+        startInd = i;
+        if(maxSum == 0) break;
+    }
+    for(int i = startInd; i <= maxInd; i++) cout << nums[i] << " ";
+}
+
+int main() {
+    int n;
+    cin >> n;
+    vector<int> nums(n);
+    for(int i = 0; i < n; i++) cin >> nums[i];
+    printMaxSumSubarray(nums, n);
+    return 0;
+}
+*/
+
+TOPIC TAGS :
+ARRAYS        SUBARRAYS      ALGORITHM
