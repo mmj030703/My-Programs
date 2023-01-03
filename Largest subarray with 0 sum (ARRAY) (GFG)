@@ -1,0 +1,105 @@
+Problem Link :
+https://practice.geeksforgeeks.org/problems/largest-subarray-with-0-sum/1?category[]=Hash&category[]=Hash&company[]=Amazon&company[]=Amazon&page=1&query=category[]Hashcompany[]Amazonpage1company[]Amazoncategory[]Hash&utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=largest-subarray-with-0-sum
+
+Description :
+Given an array having both positive and negative integers. The task is to compute the length of the largest subarray with sum 0.
+
+Example 1:
+
+Input:
+N = 8
+A[] = {15,-2,2,-8,1,7,10,23}
+Output: 5
+Explanation: The largest subarray with
+sum 0 will be -2 2 -8 1 7.
+
+Your Task:
+You just have to complete the function maxLen() which takes two arguments an array A and n, where n is the size of the array A and returns the length of the largest
+subarray with 0 sum.
+
+Expected Time Complexity: O(N).
+Expected Auxiliary Space: O(N).
+
+Constraints:
+1 <= N <= 10^5
+
+Source Code :
+//{ Driver Code Starts
+//Initial Template for C++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+
+// } Driver Code Ends
+/*You are required to complete this function*/
+
+class Solution{
+    public:
+    /*
+    // BF Soln :: TLE Soln
+    // T.C => O(n^2)
+    // S.C => O(1)
+    int maxLen(vector<int>&A, int n) {   
+        int maxLen = 0;
+        for(int i = 0; i < n; i++) {
+            int sum = 0;
+            for(int j = i; j < n; j++) {
+                sum += A[j];
+                if(sum == 0) maxLen = max(maxLen, j-i+1);
+            }
+        }
+        return maxLen;
+    }
+    */
+    
+    /*
+    // Optimal Soln :: PrefixSum and Hashing
+    // T.C => O(n)
+    // S.C => O(n)
+    int maxLen(vector<int>&A, int n) {   
+        
+        // Inserting prefix sums from ind 0 till end in map but only first time
+        // i.e. if a sum occurs twice then we will take only fisrt one into considern
+        // and
+        // finding subarray with sum 0 and also storing its length
+        
+        unordered_map<int,int> mp;
+        int prefixSum = 0, maxDist = 0;
+        for(int i = 0; i < n; i++) {
+            prefixSum += A[i];
+            if(prefixSum == 0) maxDist = i+1;
+            if(mp.find(prefixSum) != mp.end())
+                maxDist = max(maxDist, i - mp[prefixSum]);
+            else mp[prefixSum] = i;
+        }
+        return maxDist;
+    }
+    */
+};
+
+//{ Driver Code Starts.
+
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        int m;
+        cin>>m;
+        vector<int> array1(m);
+        for (int i = 0; i < m; ++i){
+            cin>>array1[i];
+        }
+        Solution ob;
+        cout<<ob.maxLen(array1,m)<<endl;
+    }
+    return 0; 
+}
+
+// } Driver Code Ends
+
+TOPIC TAGS :
+
+Arrays      Hashing        PrefixSum      Data Structures
