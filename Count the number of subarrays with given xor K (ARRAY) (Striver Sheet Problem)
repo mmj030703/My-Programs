@@ -1,0 +1,92 @@
+Description :
+Given an array of integers A and an integer B. Find the total number of subarrays having bitwise XOR of all elements equal to B.
+
+Examples:
+
+Input Format:  A = [4, 2, 2, 6, 4] , B = 6
+Result: 4
+Explanation: The subarrays having XOR of their elements as 6 are  [4, 2], [4, 2, 2, 6, 4], [2, 2, 6], [6]
+
+Input Format: A = [5, 6, 7, 8, 9], B = 5
+Result: 2
+Explanation:The subarrays having XOR of their elements as 2 are [5] and [5, 6, 7, 8, 9]
+
+Source Code :
+
+import java.util.Scanner;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.Iterator;
+public class javaPrac1 {
+    /*
+    // BF Soln :: Have a higher possibility of giving TLE Error as Complexity is Worst
+    // T.C => O(n^3) // three nested loops are running
+    // S.C => O(1)
+    public static int countSubarrays_XOR_To_k(int [] nums, int n, int k) {
+        int count = 0;
+        for(int i = 0; i < n; i++) {
+            int sum = 0;
+            for(int j = i; j < n; j++) {
+                for(int l = j; l <= j; l++) {
+                    sum ^= nums[l];
+                    if(sum == k) count++;
+                }
+            }
+        }
+        return count;
+    }
+    */
+    /*
+    // Better than BF Soln
+    // T.C => O(n^2) // two nested loops are running
+    // S.C => O(1)
+    public static int countSubarrays_XOR_To_k(int [] nums, int n, int k) {
+        int count = 0;
+        for(int i = 0; i < n; i++) {
+            int sum = 0;
+            for(int j = i; j < n; j++) {
+                sum ^= nums[j];
+                if(sum == k) count++;
+            }
+        }
+        return count;
+    }
+    */
+    /*
+    // Optimal Soln
+    // T.C => O(n)
+    // S.C => O(n)
+    public static int countSubarrays_XOR_To_k(int [] nums, int n, int k) {
+        HashMap<Integer, Integer> mp = new HashMap<Integer, Integer>();
+        int prefixXOR = 0, count = 0;
+        for(int i = 0; i < n; i++) {
+            prefixXOR ^= nums[i];
+            if(mp.get(prefixXOR ^ k) != null) {
+                count += mp.get(prefixXOR ^ k);
+            }
+            if(prefixXOR == k) count++;
+            if(mp.get(prefixXOR) != null) {
+                mp.put(prefixXOR, mp.get(prefixXOR)+1);
+            }
+            else mp.put(prefixXOR, 1);
+        }
+        return count;
+    }
+    */
+    public static void main(String [] args) {
+        Scanner sc = new Scanner(System.in);
+        // Taking Input
+        int n = sc.nextInt();    // size of array
+        int k = sc.nextInt();
+        int nums [] = new int[n];
+        for(int i = 0; i < n; i++) nums[i] = sc.nextInt(); // taking array input
+        // Logic Part and Output
+        // BF Soln
+        System.out.println("Total Subarrays : " + countSubarrays_XOR_To_k(nums, n, k));
+    }
+
+}
+
+TOPIC TAGS :
+ARRAYS            SUBARRAYS             PrefixXOR
