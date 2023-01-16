@@ -1,0 +1,112 @@
+Problem Link :
+https://leetcode.com/problems/longest-consecutive-sequence/description/
+
+Description :
+Given an unsorted array of integers nums, return the length of the longest consecutive elements sequence.
+
+You must write an algorithm that runs in O(n) time.
+
+Example 1:
+Input: nums = [100,4,200,1,3,2]
+Output: 4
+Explanation: The longest consecutive elements sequence is [1, 2, 3, 4]. Therefore its length is 4.
+
+Example 2:
+Input: nums = [0,3,7,2,5,8,4,6,0,1]
+Output: 9
+ 
+Constraints:
+0 <= nums.length <= 10^5
+-10^9 <= nums[i] <= 10^9
+
+Source Code :
+package com.practice;
+import java.util.HashSet;
+import java.util.Scanner;
+import java.util.Arrays;
+import java.util.Set;
+
+class FindSolution {
+    // BruteForce Soln :: Sorting
+    // T.C => O(nlogn + n) => O(nlogn)
+    // S.C => O(1)
+    public int longestConsecutiveApproach1(int [] nums) {
+        Arrays.sort(nums);
+        int currLen = 1, maxLen = 0, n = nums.length;
+        for(int i = 0; i < n; i++) {
+            if(i < n-1) {
+                if (nums[i] != nums[i + 1]) {
+                    if (nums[i + 1] == nums[i] + 1) currLen++;
+                    else {
+                        maxLen = Math.max(maxLen, currLen);
+                        currLen = 1;
+                    }
+                }
+            }
+            else {
+                maxLen = Math.max(maxLen, currLen);
+            }
+        }
+        return maxLen;
+    }
+
+    // Optimal Soln :: HashSet
+    // T.C => O(n+n) => O(n)
+    // S.C => O(n)
+    public int longestConsecutiveApproach2(int [] nums) {
+        Set<Integer> s = new HashSet<>();
+        for(int i : nums) {
+            s.add(i);
+        }
+        int currLen = 1, maxLen = 0;
+        for(int i : s) {
+            if(!s.contains(i-1)) {
+                currLen = 1;
+                int toFind = i+1;
+                while(s.contains(toFind)) {
+                    toFind += 1;
+                    currLen++;
+                }
+                maxLen = Math.max(maxLen,currLen);
+            }
+        }
+        return maxLen;
+    }
+
+    // BF Soln :: TLE Soln
+    // T.C => O(n^2)
+    // S.C => O(1)
+    public int longestConsecutiveApproach3(int [] nums) {
+        int maxLen = 0;
+        for(int i = 0; i < nums.length; i++) {
+            int currLen = 1, toFind = nums[i]+1;
+            for(int j = 0; j < nums.length; j++) {
+                if(nums[j] == toFind) {
+                    currLen++;
+                    toFind++;
+                    j = -1;
+                }
+            }
+            maxLen = Math.max(maxLen,currLen);
+        }
+        return maxLen;
+    }
+}
+
+class javaPrac1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int [] nums = new int[n];
+        for(int i = 0; i < n; i++) {
+            nums[i] = sc.nextInt();
+        }
+        FindSolution s = new FindSolution();
+//        System.out.println(s.longestConsecutiveApproach1(nums));
+//        System.out.println(s.longestConsecutiveApproach2(nums));
+        System.out.println(s.longestConsecutiveApproach3(nums));
+    }
+}
+
+Topic Tags :
+ARRAYS          SOTRING           HASHSET
