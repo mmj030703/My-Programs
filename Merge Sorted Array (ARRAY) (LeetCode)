@@ -140,3 +140,96 @@ public:
         */
     }
 };
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Same Approaches in JAVA
+
+package com.practice;
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.Arrays;
+
+class Solution {
+    // BF Soln :: Using HashMap :: T.C => O(mlogm + nlogn + n) => O(nlogn) :: S.C => O(n)
+    // Better BF Soln :: Sorting
+    // T.C => O(n + nlogn) => O(nlogn)
+    // S.C => O(1)
+    public void merge_Approach1(int nums1[], int n, int nums2[], int m) {
+        for(int i = n-m; i < n; i++) {
+            int i2 = n-m;
+            nums1[i] = nums2[(i-(n-m))];
+        }
+        Arrays.sort(nums1);
+    }
+
+    // BF Soln :: Traversing From Back and Check for Correct Position
+    // T.C => O(n^2)
+    // S.C => O(1)
+    public void merge_Approach2(int nums1[], int n, int nums2[], int m) {
+        int i = 0, j = 0;
+        while(j < n) {
+            for(int k = m-1; k >= 0; k--) {
+                if(nums2[j] < nums1[k]) {
+                    nums1[k+1] = nums1[k];
+                }
+                else {
+                    i = k+1;
+                    break;
+                }
+            }
+            nums1[i] = nums2[j];
+            j++;
+            m++;
+        }
+    }
+
+    // Optimal Soln :: Using Extra Array for storing elements in sorted order
+    // T.C => O(n+m)
+    // S.C => O(n+m)
+    public void merge_Approach3(int [] num1, int n, int [] num2, int m) {
+        int [] ans = new int[n+m];
+        int i = 0, j = 0, ind = 0;
+        while(i < n && j < m) {
+            if(num1[i] < num2[j]) ans[ind++] = num1[i++];
+            else if(num1[i] > num2[j]) ans[ind++] = num2[j++];
+            else ans[ind++] = num1[i++];
+        }
+        while(i < n) {
+            ans[ind++] = num1[i++];
+        }
+        while(j < m) {
+            ans[ind++] = num2[j++];
+        }
+        for(int k = 0; k < n+m; k++) {
+            num1[k] = ans[k];
+        }
+    }
+}
+
+class javaPrac1 {
+    public static void main(String [] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        int [] nums1 = new int[n];
+        int [] nums2 = new int[m];
+        for(int i = 0; i < n; i++) {
+            nums1[i] = sc.nextInt();
+        }
+        for(int i = 0; i < m; i++) {
+            nums2[i] = sc.nextInt();
+        }
+        Solution s = new Solution();
+//      s.merge_Approach1(nums1, n, nums2, m);
+//      s.merge_Approach2(nums1, n, nums2, m);
+        s.merge_Approach3(nums1, n-m, nums2, m);
+        System.out.println("After Merging ....");
+        for(int i : nums1) {
+            System.out.print(i + " ");
+        }
+    }
+}
+
+TOPIC TAGS :
+(ARRAY) (TWO POINTER) (SORTING)
+
