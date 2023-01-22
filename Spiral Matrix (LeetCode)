@@ -74,6 +74,69 @@ public:
         return ans;
     }
 };
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Code in Java
+package com.practice;
+import java.util.List;
+import java.util.Scanner;
+import java.util.ArrayList;
+
+class Solution {
+	public List<Integer> spiralOrder(int [][] matrix) {
+		List<Integer> ans = new ArrayList<Integer>();
+		int topRow = 0;
+		int rightCol = matrix[0].length-1;
+		int bottomRow = matrix.length-1;
+		int leftCol = 0;
+		
+		while((topRow <= bottomRow) && (leftCol <= rightCol)) {
+			// storing topRow
+			for(int i = leftCol; (topRow <= bottomRow) && (leftCol <= rightCol) && i <= rightCol; i++) {
+				ans.add(matrix[topRow][i]);
+			}
+			topRow++;
+			
+			// storing rightCol
+			for(int i = topRow; (topRow <= bottomRow) && (leftCol <= rightCol) && i <= bottomRow; i++) {
+				ans.add(matrix[i][rightCol]);
+			}
+			rightCol--;
+			
+			// storing bottomRow
+			for(int i = rightCol; (topRow <= bottomRow) && (leftCol <= rightCol) && i >= leftCol; i--) {
+				ans.add(matrix[bottomRow][i]);
+			}
+			bottomRow--;
+			
+			// storing leftCol
+			for(int i = bottomRow; (topRow <= bottomRow) && (leftCol <= rightCol) && i >= topRow; i--) {
+				ans.add(matrix[i][leftCol]);
+			}
+			leftCol++;
+		}
+		return ans;
+	}
+}
+
+class prac1 {
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		int r = scanner.nextInt();
+		int c = scanner.nextInt();
+		int [][] matrix = new int[r][c];
+		for(int i = 0; i < r; i++) {
+			for(int j = 0; j < c; j++) {
+				matrix[i][j] = scanner.nextInt();
+			}
+		}
+		Solution s = new Solution();
+		List<Integer> ans = s.spiralOrder(matrix);
+		for(int i : ans) {
+			System.out.print(i + " ");
+		}
+	}
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 TOPIC TAG :
 2D ARRAY      MATRIX         SIMULATION
