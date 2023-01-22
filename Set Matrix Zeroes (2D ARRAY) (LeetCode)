@@ -1,0 +1,182 @@
+Problem Link :
+https://leetcode.com/problems/set-matrix-zeroes/description/
+
+Description :
+Given an m x n integer matrix matrix, if an element is 0, set its entire row and column to 0's.
+You must do it in place.
+
+Example 1:
+Input: matrix = [[1,1,1],[1,0,1],[1,1,1]]
+Output: [[1,0,1],[0,0,0],[1,0,1]]
+
+Example 2:
+Input: matrix = [[0,1,2,0],[3,4,5,2],[1,3,1,5]]
+Output: [[0,0,0,0],[0,4,5,0],[0,3,1,0]]
+ 
+Constraints:
+m == matrix.length
+n == matrix[0].length
+1 <= m, n <= 200
+-2^31 <= matrix[i][j] <= 2^31 - 1
+ 
+Follow up:
+A straightforward solution using O(mn) space is probably a bad idea.
+A simple improvement uses O(m + n) space, but still not the best solution.
+Could you devise a constant space solution?
+
+Source Code :
+package com.practice;
+import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+class javaPrac1 {
+    // BF Soln :: Storing Rows and Cols of all 0's in vector
+    // T.C => O(n*m + n(n+m)) => O(n^2)
+    // S.C => O(n*m)
+    public static void setZeroes(int [][] matrix) {
+        ArrayList<int[]> list = new ArrayList<>();
+        for(int i = 0; i < matrix.length; i++) {
+            for(int j = 0; j < matrix[0].length; j++) {
+                if(matrix[i][j] == 0) {
+                    int [] temp = {i,j};
+                    list.add(temp);
+                }
+            }
+        }
+        for(int [] temp : list) {
+            int row = temp[0];
+            int col = temp[1];
+            for(int i = 0; i < matrix[0].length; i++) {
+                matrix[row][i] = 0;
+            }
+            for(int i = 0; i < matrix.length; i++) {
+                matrix[i][col] = 0;
+            }
+        }
+     }
+
+    // Better than BF Soln :: Storing Rows and Cols of first 0 of that row and col respectively in
+    // 2 one dimentional array separately
+    // T.C => O(n*m + n*m + n*m + n*m) => O(n*m)
+    // S.C => O(n+m)
+    public static void setZeroes1(int [][] matrix) {
+        int[] row = new int[matrix.length];
+        int[] col = new int[matrix[0].length];
+        int rowInd = 0;
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                if (matrix[i][j] == 0) {
+                    row[rowInd++] = i;
+                    break;
+                }
+            }
+        }
+        int colInd = 0;
+        for (int i = 0; i < matrix[0].length; i++) {
+            for (int j = 0; j < matrix.length; j++) {
+                if (matrix[j][i] == 0) {
+                    col[colInd++] = i;
+                    break;
+                }
+            }
+        }
+        for (int i = 0; i < rowInd; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                matrix[row[i]][j] = 0;
+            }
+        }
+        for (int i = 0; i < colInd; i++) {
+            for (int j = 0; j < matrix.length; j++) {
+                matrix[j][col[i]] = 0;
+            }
+        }
+    }
+
+    /*
+    Approach :
+    1) Go to each cell and check if it is zero or not.
+        -> if any cell of 0th col is zero than make zeroCol to true.
+        -> if yes than store its row in the respective 0th col and it's col in respective 0th row
+    2) Go to each cell and check it's respective row and col and if any of them is 0 than make that
+       cell 0.
+    3) Check if first value of matrix i.e. 0th row and 0th col is 0 then set the 0th row as 0.
+    4) Check if zeroCol is true if yes than set 0th col to 0.
+     */
+    public static void setZeroes2(int [][] matrix){
+        // we will make zeroCol true if zero col of any row is zero.
+        // we use zeroCol var to ensure that any element in 0th col is 0 or not.
+        boolean zeroCol = false;
+        // we start a loop from 0th row and 1st col as for 0th row we have zeroCol approach.
+        // Also as we don't want to change val at zero col so that our ans dosen't changes i.e
+        // don't want to change the zero row val as it stores zeroes in the respective cells in
+        // whose rows we want to make 0.
+        for(int i = 0; i < matrix.length; i++) {
+            // if any first col of row is zero we turn zeroCol to true which means that yes first
+            // column has zero has the whole column need to be made 0.
+            if(matrix[0][i] == 0) {
+                zeroCol = true;
+            }
+            // We check if any cell is 0 if yes than we store for that cell in their respective zero
+            // row and zero column 0 so that at the end we can identify that yes this row or col
+            // start has 0 so it means this row or col has to be made 0.
+            for(int j = 1; j < matrix[0].length; j++) {
+                if(matrix[i][j] == 0) {
+                    matrix[i][0] = 0;  // storing 0 in respective cell's 0th col of ith row
+                    matrix[0][j] = 0;  // storing 0 in respective cell's 0th row of ith col
+                }
+            }
+        }
+
+        // Here we start a loop from 1 and 1 as 0th row and 0th col contains data of cells
+        // containing 0's.
+        for(int i = 1; i < matrix.length; i++) {
+            for(int j = 1; j < matrix[0].length; j++) {
+                // we check if current cells first col of ith row is 0 or first row of ith col is 0
+                // then we make current cell as 0.
+                if(matrix[i][0] == 0 || matrix[0][j] == 0) {
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+
+        // we check if 0th row and 0th col is 0 or not and if it is 0 then we make the 0th row as 0.
+        if(matrix[0][0] == 0) {
+            for(int i = 1; i < matrix[0].length; i++) {
+                matrix[0][i] = 0;
+            }
+        }
+
+        // As above discussed if firstCol is true which means that 0th col has any cell or cells
+        // as 0 and we need to make the 0th col as 0.
+        if(zeroCol) {
+            for(int i = 0; i < matrix.length; i++) {
+                matrix[i][0] = 0;
+            }
+        }
+    }
+
+    public static void main(String [] args) {
+        Scanner sc = new Scanner(System.in);
+        int r = sc.nextInt();
+        int c = sc.nextInt();
+        int [][] matrix = new int[r][c];
+        for(int i = 0; i < r; i++) {
+            for(int j = 0; j < c; j++) {
+                matrix[i][j] = sc.nextInt();
+            }
+        }
+//        setZeroes(matrix);
+//        setZeroes1(matrix);
+        setZeroes2(matrix);
+        for(int [] arr : matrix) {
+            for(int i : arr) {
+                System.out.print(i + " ");
+            }
+            System.out.println();
+        }
+    }
+}
+
+TOPIC TAGS :
+ARRAYS            2D ARRAYS       
