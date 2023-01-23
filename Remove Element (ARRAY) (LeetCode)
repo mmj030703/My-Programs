@@ -1,0 +1,163 @@
+Problem Link :
+https://leetcode.com/problems/remove-element/description/
+
+Description :
+Given an integer array nums and an integer val, remove all occurrences of val in nums in-place. The relative order of the elements may be changed.
+
+Since it is impossible to change the length of the array in some languages, you must instead have the result be placed in the first part of the array nums. 
+More formally, if there are k elements after removing the duplicates, then the first k elements of nums should hold the final result. It does not matter what you 
+leave beyond the first k elements.
+
+Return k after placing the final result in the first k slots of nums.
+Do not allocate extra space for another array. You must do this by modifying the input array in-place with O(1) extra memory.
+
+Custom Judge:
+The judge will test your solution with the following code:
+
+int[] nums = [...]; // Input array
+int val = ...; // Value to remove
+int[] expectedNums = [...]; // The expected answer with correct length.
+                            // It is sorted with no values equaling val.
+int k = removeElement(nums, val); // Calls your implementation
+assert k == expectedNums.length;
+sort(nums, 0, k); // Sort the first k elements of nums
+for (int i = 0; i < actualLength; i++) {
+    assert nums[i] == expectedNums[i];
+}
+If all assertions pass, then your solution will be accepted.
+
+Example 1:
+Input: nums = [3,2,2,3], val = 3
+Output: 2, nums = [2,2,_,_]
+Explanation: Your function should return k = 2, with the first two elements of nums being 2.
+It does not matter what you leave beyond the returned k (hence they are underscores).
+
+Example 2:
+Input: nums = [0,1,2,2,3,0,4,2], val = 2
+Output: 5, nums = [0,1,4,0,3,_,_,_]
+Explanation: Your function should return k = 5, with the first five elements of nums containing 0, 0, 1, 3, and 4.
+Note that the five elements can be returned in any order.
+It does not matter what you leave beyond the returned k (hence they are underscores).
+ 
+Constraints:
+0 <= nums.length <= 100
+0 <= nums[i] <= 50
+0 <= val <= 100
+
+Source Code : 
+package com.practice;
+import java.util.Scanner;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+class Solution {
+    // BF Sol :: find max and sort then find k
+    // T.C => O(n + n + nlogn) => O(nlogn)
+    // S.C => O(1)
+    public int removeElement(int[] nums, int val) {
+        int k = 0, countVal = 0, max = 0;
+        for(int i : nums) {
+            max = Math.max(max, i);
+        }
+        for(int i = 0; i < nums.length; i++) {
+            if(nums[i] == val) {
+                countVal++;
+                nums[i] = max+1;
+            }
+        }
+        Arrays.sort(nums);
+        k = nums.length-countVal;
+        return nums.length-countVal;
+    }
+
+    // Optimal Sol :: using two pointers approach and then finding
+    // count of val.
+    // T.C => O(n + n) => O(n)
+    // S.C => O(1)
+    public int removeElement1(int[] nums, int val) {
+        int i = 0, j = 0, countVal = 0;
+        while(j < nums.length) {
+            if(nums[i] == val && nums[j] == val) j++;
+            else if(nums[i] == val && nums[j] != val) {
+                int temp = nums[i];
+                nums[i] = nums[j];
+                nums[j] = temp;
+                i++; j++;
+            }
+            else {
+                i++; j++;
+            }
+        }
+        for(int k = nums.length-1; k >= 0; k--) {
+            if(nums[k] != val) break;
+            countVal++;
+        }
+        return nums.length-countVal;
+    }
+
+    // Better than BF Sol :: using hashmap
+    // T.C => O(n + n) => O(n)
+    // S.C => O(n)
+    public int removeElement2(int nums[], int val) {
+        HashMap<Integer, Integer> mp = new HashMap<>(nums.length);
+        int countVal = 0;
+        for(int i : nums) {
+            if(mp.get(i) == null) {
+                mp.put(i,1);
+            }
+            else mp.put(i, mp.get(i) + 1);
+        }
+        int ind = 0;
+        for(Map.Entry<Integer,Integer> it : mp.entrySet()) {
+            if(it.getKey() != val) {
+                while(it.getValue() != 0) { // inner while loop will run at worst n times
+                    nums[ind++] = it.getKey();
+                    mp.put(it.getKey(), mp.get(it.getKey())-1);
+                }
+            }
+        }
+        if(mp.get(val) != null) countVal = mp.get(val);
+        return nums.length - countVal;
+    }
+
+    // Optimal Sol :: using two pointers approach and finding
+    // count of val simultaneously.
+    // T.C => O(n)
+    // S.C => O(1)
+    public int removeElement3(int[] nums, int val) {
+        int k = 0;
+        for(int i = 0; i < nums.length; i++) {
+           if(nums[i] != val) {
+               nums[k++] = nums[i];
+           }
+        }
+        return k;
+    }
+}
+
+class removeElement {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int val = sc.nextInt();
+        int [] nums = new int[n];
+        for(int i = 0; i < n; i++) {
+            nums[i] = sc.nextInt();
+        }
+        Solution s = new Solution();
+//        int k = s.removeElement(nums, val);
+//        int k = s.removeElement1(nums, val);
+//        int k = s.removeElement2(nums, val);
+        int k = s.removeElement3(nums, val);
+        System.out.println(k);
+        for(int i : nums) {
+            System.out.print(i + " ");
+        }
+    }
+}
+
+TOPIC TAGS :
+ARRAYS         TWO POINTERS
+
