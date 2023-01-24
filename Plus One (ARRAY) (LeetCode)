@@ -1,0 +1,112 @@
+Problem Link : 
+https://leetcode.com/problems/plus-one/description/
+
+Description :
+You are given a large integer represented as an integer array digits, where each digits[i] is the ith digit of the integer. The digits are ordered from most 
+significant to least significant in left-to-right order. The large integer does not contain any leading 0's.
+
+Increment the large integer by one and return the resulting array of digits.
+
+Example 1:
+Input: digits = [1,2,3]
+Output: [1,2,4]
+Explanation: The array represents the integer 123.
+Incrementing by one gives 123 + 1 = 124.
+Thus, the result should be [1,2,4].
+
+Example 2:
+Input: digits = [4,3,2,1]
+Output: [4,3,2,2]
+Explanation: The array represents the integer 4321.
+Incrementing by one gives 4321 + 1 = 4322.
+Thus, the result should be [4,3,2,2].
+
+Example 3:
+Input: digits = [9]
+Output: [1,0]
+Explanation: The array represents the integer 9.
+Incrementing by one gives 9 + 1 = 10.
+Thus, the result should be [1,0].
+
+Constraints:
+1 <= digits.length <= 100
+0 <= digits[i] <= 9
+digits does not contain any leading 0's.
+
+Source Code :
+package com.practice;
+import java.util.Collections;
+import java.util.Scanner;
+import java.util.ArrayList;
+
+class Solution {
+    // BF Sol :: Using extra ArrayList
+    // T.C => O(n+n+n) => O(n)
+    // S.C => O(n)
+    public int[] plusOne(int [] digits) {
+        ArrayList<Integer> l = new ArrayList<>(digits.length);
+        int carry = 0;
+        for(int i = digits.length-1; i >= 0; i--) {        // O(n)
+            int sum = 0;
+            if(i == digits.length-1) {
+                sum = (digits[i] + 1) % 10;
+                l.add(sum);
+                carry = (digits[i] + 1) / 10;
+            }
+            else {
+                sum = (digits[i] + carry) % 10;
+                l.add(sum);
+                carry = (digits[i] + carry) / 10;
+            }
+        }
+        if(carry == 1) {
+            l.add(1);
+        }
+        Collections.reverse(l);        // O(n)
+        int [] arr = new int[l.size()];
+        for(int i = 0; i < arr.length; i++) {    // O(n)
+            arr[i] = l.get(i);
+        }
+        return arr;
+    }
+
+    // Optimal Soln :: Run loop from back and check if element is < 9 than return array and
+    //                 if it is 9 then make that index val 0.
+    // T.C => O(n)
+    // S.C => O(n) :: In the worst case as if any test case have all 9's then only ans is
+    //                created otherwise it will never come to that line and will
+    //                return in the above loop itself.
+    public int[] plusOne1(int [] digits) {
+        int n = digits.length;
+        for(int i = n-1; i >= 0; i--) {
+            if(digits[i] < 9) {
+                digits[i]++;
+                return digits;
+            }
+            digits[i] = 0;
+        }
+        int [] ans = new int[n+1];
+        ans[0] = 1;
+        return ans;
+    }
+}
+
+class practiceQuestion {
+    public static void main(String [] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int [] digits = new int[n];
+        for(int i = 0; i < n; i++) {
+            digits[i] = sc.nextInt();
+        }
+        Solution s = new Solution();
+//        int[] ans = s.plusOne(digits);
+        int[] ans = s.plusOne1(digits);
+        for(int i : ans) {
+            System.out.print(i + " ");
+        }
+    }
+}
+
+TOPIC TAGS :
+ARRAYS        MATH
