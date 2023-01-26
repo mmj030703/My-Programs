@@ -1,0 +1,139 @@
+Problem Link :
+https://leetcode.com/problems/container-with-most-water/
+
+Description : 
+You are given an integer array height of length n. There are n vertical lines drawn such that the two endpoints of the ith line are (i, 0) and (i, height[i]).
+Find two lines that together with the x-axis form a container, such that the container contains the most water.
+Return the maximum amount of water a container can store.
+Notice that you may not slant the container.
+
+Example 1:
+Input: height = [1,8,6,2,5,4,8,3,7]
+Output: 49
+Explanation: The above vertical lines are represented by array [1,8,6,2,5,4,8,3,7]. In this case, the max area of water (blue section) the container can contain is 49.
+
+Example 2:
+Input: height = [1,1]
+Output: 1
+ 
+Constraints:
+n == height.length
+2 <= n <= 10^5
+0 <= height[i] <= 10^4
+
+Source Code :
+package com.practice;
+import java.util.Scanner;
+
+class Solution {
+    // Approach :: Calculate area for all possible two lines.
+    // BruteForce Soln :: TLE Soln :: Calculating all possible area's & checking greatest among them
+    // T.C => O(n^2)
+    // S.C => O(1)
+    public int maxArea(int [] height, int n) {
+        int max = 0;
+        for(int i = 0; i < n-1; i++) {
+            for(int j = i+1; j < n; j++) {
+                int length = Math.min(height[i],height[j]);
+                int breadth = j-i;
+                int currArea = length * breadth;
+                max = Math.max(max, currArea);
+            }
+        }
+        return max;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    // Approach ::
+    // 1) Make two pointers start and end.
+    // 2) Start a while loop and run until start < end.
+    //    -> 2.a) Calculate the currArea and if it is > maxArea then update maxArea with currArea.
+    //    -> 2.b) Now move the pointer with smaller value i.e. if start points small val then move
+    //            ahead and if end points small val then move it one step behind.
+    // 3) Return maxArea.
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Intution : Why it works ?
+    // 1) When we make two pointer we start one pointer from start and one pointer from end as these
+    //    two positions i.e. the start and end position as these are the two most widest distance and
+    //    it has highest possibility of getting maximum area so we calculate from these two positions.
+    // 2) We move the pointer with smaller value and for this we consider two cases :
+    //    -> Case 1 :: We move pointer with smaller value 
+    //          -> If we move pointer with smaller value there is a possibility that we encounter a 
+    //             smaller value which at the end doesn't make large area but there is a higher 
+    //             possibility that we can get something greater than current start pointer pointing 
+    //             value and which eventually makes the area larger.
+    //             For eg :
+    //             1 5 4 3 2
+    //             s       e
+    //             Now area is 4 as length is 1 and breadth is 2.
+    //             Here we move s and we get s = 5 and e = 2 so we get area 6 which is greater than
+    //             previous.
+    //    -> Case 2 :: We move pointer with highest value
+    //          -> When we move pointer with highest value so what happens is we can get a bigger
+    //             value after moving but this bigger value dosen't make any change as when we move with 
+    //             one step and even if we get bigger value which is of no use as the length we consider 
+    //             is the minimum among both pointers which is the one we doesn't moved in the previous 
+    //             step where we move pointer with bigger val. So our length is mimimal and as we move 
+    //             one step the width is also decreased as this area will be minimum then we calculated
+    //             last time. So this makes no sense to move pointer with bigger value.
+    //             For eg :
+    //             1 5 4 3 2
+    //             s       e
+    //             currArea is 4 as length is 1 and bredth is 4.
+    //             1 5 4 3 2
+    //             s     e
+    //             We move bigger e pointer and now our length is 1 and breadth is 3 so our area is 3.
+    //             So we have currArea as 3 and we already have area as 4 in the previous Iteration.
+    
+    //          -> This is the same when we pointer wit bigger value and we get smaller value ahead 
+    //             then we consider the length as minimum of two pointers so the length is minimum then
+    //             previous time when we calculated the area and as we moved one step so width is also
+    //             decreased and overall area is smaller then we calculated in the previous time.
+    //             For eg :
+    //             4 5 8 3 6
+    //             s       e
+    //             currArea is 16 as length is 4 and bredth is 4.
+    //             4 5 8 3 6
+    //             s     e
+    //             We move bigger e pointer and now our length is 3 and breadth is 3 so our area is 9.
+    //             So we have currArea as 9 and we already have area as 16 in the previous Iteration.
+    
+    //          -> So when we move pointer with bigger value we will always get smaller area in the 
+    //             next iteration.
+
+    //          -> This is the reason why we move smaller value pointer and we want to try maximize our 
+    //             area in every iteration.
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Optimal Sol :: Using Two Pointers Approach, one pointer at start and one pointer at end.
+    // T.C => O(n)
+    // S.C => O(1)
+    public int maxArea1(int [] height, int n) {
+        int s = 0, e = n-1, max = 0;
+        while(s < e) {
+            int length = Math.min(height[s], height[e]);
+            int breadth = e-s;
+            max = Math.max(max, length*breadth);
+            if(height[s] < height[e]) s++;
+            else e--;
+        }
+        return max;
+    }
+}
+
+class practiceQuestion {
+    public static void main(String [] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int [] height = new int[n];
+        for(int i = 0; i < n; i++) {
+            height[i] = sc.nextInt();
+        }
+        Solution s = new Solution();
+//        System.out.println("Max Area : " + s.maxArea(height,n));
+        System.out.println("Max Area : " + s.maxArea1(height,n));
+    }
+}
+
+TOPIC TAGS :
+ARRAYS            TWO POINTERS          GREEDY 
