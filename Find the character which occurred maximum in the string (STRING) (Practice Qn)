@@ -1,0 +1,103 @@
+No Link : Just a Practice Question
+
+Description : 
+Given a string, find the character which occurred maximum in the string.
+
+Example 1 :
+Input : "Hello hi how"
+Output : 'h'
+
+Example 2 : 
+Input : "my name is Mayank Mahavir Jain"
+Output : 'a'
+
+Source Code :
+package com.practice;
+import java.util.*;
+
+class Solution {
+    // BF Soln
+    // T.C => O(n^2)
+    // S.C => O(1)
+    public char maxOccurence(String str) {
+        int max = 0;
+        char maxChar = 0;
+        for(int i = 0; i < str.length(); i++) {
+            int currCount = 1;
+            for(int j = i+1; j < str.length(); j++) {
+                if(!(Character.isSpace(str.charAt(i))) && str.charAt(i) == str.charAt(j)) currCount++;
+            }
+            System.out.println("Character : " + str.charAt(i) + "\nCount : " + currCount);
+            if(max < currCount) {
+                max = currCount;
+                maxChar = str.charAt(i);
+            }
+        }
+        return maxChar;
+    }
+
+    // Better than BF Soln
+    // T.C => O(nlogn)
+    // S.C => O(n)
+    public char maxOccurence1(String str) {
+        char [] c = str.toCharArray();
+        Arrays.sort(c);
+        str = new String(c);
+        int max = 1;
+        int currCount = 1;
+        char maxChar = str.charAt(0);
+        for(int i = 0; i < str.length()-1; i++) {
+            if(Character.isSpaceChar(str.charAt(i))) continue;
+            if(str.charAt(i) == str.charAt(i+1)) {
+                currCount++;
+            }
+            else if(max < currCount) {
+                max = currCount;
+                maxChar = str.charAt(i);
+                currCount = 1;
+            }
+            else currCount = 1;
+        }
+        if(max < currCount) return str.charAt(str.length()-1);
+        return maxChar;
+    }
+
+    // Better than Above
+    // T.C => O(n+n) => O(n)
+    // S.C => O(n)
+    public char maxOccurence2(String str) {
+        HashMap<Character, Integer> mp = new HashMap<>(str.length());
+        for(int i = 0; i < str.length(); i++) {
+            if(Character.isSpace((str.charAt(i)))) continue;
+            if(mp.get(str.charAt(i)) == null) {
+                 mp.put(str.charAt(i), 1);
+             }
+             else mp.put(str.charAt(i), mp.get(str.charAt(i))+1);
+        }
+        Set s = mp.entrySet();
+        Iterator it = s.iterator();
+        int max = 0;
+        char maxChar = 0;
+        for(Map.Entry<Character, Integer> e : mp.entrySet()) {
+            if(e.getValue() > max) {
+                max = e.getValue();
+                maxChar = e.getKey();
+            }
+        }
+        return maxChar;
+    }
+}
+
+class practiceQuestion {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String str = sc.nextLine();
+        Solution s = new Solution();
+//        System.out.println(s.maxOccurence(str.toLowerCase()));
+//        System.out.println(s.maxOccurence1(str.toLowerCase()));
+        System.out.println(s.maxOccurence2(str.toLowerCase()));
+    }
+}
+
+Topic Tags :
+Strings             Sorting              HashMap
