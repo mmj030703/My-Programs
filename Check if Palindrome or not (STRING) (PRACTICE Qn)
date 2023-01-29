@@ -1,0 +1,55 @@
+No Link :: Just for Practice
+
+Description : 
+Check if the given String is a Palindrome or not.
+
+Example 1 :
+Input :: "abcdcda"
+Output :: It is a Palindrome.
+
+Example 2 :
+Input :: "abcdcdalsks"
+Output :: Not a Palindrome.
+
+Source Code :
+package com.practice;
+import java.util.Scanner;
+
+class Solution1 {
+    // Optimal Soln
+    // T.C => O(n)
+    // S.C => O(1)
+    public String isPalindrome(String str) {
+        int s = 0, e = str.length()-1;
+        while(s < e) {
+            if(str.charAt(s) != str.charAt(e)) return "Not a Palindrome.";
+            s++; e--;
+        }
+        return "Is a Palindrome.";
+    }
+
+    // BF Soln
+    // T.C => O(n)
+    // S.C => O(n)
+    public String isPalindrome1(String str) {
+        String ans = "";
+        for(int i = str.length()-1; i >= 0; i--) {
+            ans += str.charAt(i);
+        }
+        if(ans.equals(str)) return "Is a Palindrome.";
+        else return "Not a Palindrome.";
+    }
+}
+
+class javaPrac2 {
+    public static void main(String [] args) {
+        Scanner sc = new Scanner(System.in);
+        String str = sc.nextLine();
+        Solution1 s = new Solution1();
+//      System.out.println(s.isPalindrome(str));
+        System.out.println(s.isPalindrome1(str));
+    }
+}
+
+TOPIC TAGS :
+STRINGS  
