@@ -1,0 +1,89 @@
+Problem Link :
+https://www.codingninjas.com/codestudio/guided-paths/basics-of-java/content/120294/offering/1403013?leftPanelTab=0
+
+Description :
+Reverse the given string word-wise. The last word in the given string should come at 1st place, the last-second word at 2nd place, and so on. Individual words should 
+remain as it is.
+
+Sample Input 1:
+Welcome to Coding Ninjas
+Sample Output 1:
+Ninjas Coding to Welcome
+
+Sample Input 2:
+Always indent your code
+Sample Output 2:
+code your indent Always
+
+Constraints :
+0 <= |S| <= 10^5
+where |S| represents the length of string, S.
+
+Source Code :
+import java.util.Scanner;
+
+class Solution {
+    /*
+    // BF Soln
+    // T.C => O(N+N+N) => O(N)
+    // S.C => O(N+N) => O(N)
+    static String reverseStringWordWise(String input) {
+        // Counting Spaces for creating a String Array.
+        int spaceCount = 0;
+        for(int i = 0; i < input.length(); i++) {
+            if(Character.isSpace(input.charAt(i))) spaceCount++;
+        }
+
+        // Storing the words of input string in reverse order in Array.
+        String[] s = new String[++spaceCount];
+        String str = "";
+        int strInd = 0;
+        for(int i = 0; i < input.length(); i++) {
+            str += input.charAt(i);
+            if(Character.isSpace(input.charAt(i))) {
+                s[s.length-1-strInd++] = str;
+                str = "";
+            }
+        }
+        s[s.length-1-strInd++] = str + " ";
+
+        // From Array going on each index and contatenating with str string.
+        str = "";
+        for(int i = 0; i < s.length; i++) {
+            str += s[i];
+        }
+        return str;
+    }
+    */
+
+    // Optimal Soln :: Code is better than above.
+    // T.C => O(N)
+    // S.C => O(N+N) => O(N)
+    static String reverseStringWordWise(String input) {
+        int n = input.length();
+        String str = "";
+        String ans = "";
+        for(int i = 0; i < n; i++) {
+            if(Character.isSpace(input.charAt(i))) {
+                ans = " " + str + ans;
+                str = "";
+                continue;
+            }
+            str += input.charAt(i);
+        }
+        ans = str + ans;
+        return ans;
+    }
+
+    public static void main(String args[]) {
+        Scanner sc = new Scanner(System.in);
+        String input = sc.nextLine();
+        String ans = reverseStringWordWise(input);
+        System.out.println(ans);
+    }
+}
+
+TOPIC TAGS :
+STRINGS 
+
+
