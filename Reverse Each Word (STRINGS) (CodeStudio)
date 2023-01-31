@@ -1,0 +1,71 @@
+Problem Link :
+https://www.codingninjas.com/codestudio/guided-paths/basics-of-java/content/120294/offering/1403016?leftPanelTab=0
+
+Description :
+Aadil has been provided with a sentence in the form of a string as a function parameter. The task is to implement a function so as to print the sentence such that 
+each word in the sentence is reversed.
+Example:
+Input Sentence: "Hello, I am Aadil!"
+The expected output will print, ",olleH I ma !lidaA".
+
+Sample Input 1:
+Welcome to Coding Ninjas
+Sample Output 1:
+emocleW ot gnidoC sajniN
+
+Sample Input 2:
+Always indent your code
+Sample Output 2:
+syawlA tnedni ruoy edoc
+
+Constraints:
+0 <= N <= 10^6
+Where N is the length of the input string.
+Time Limit: 1 second
+
+Source Code :
+import java.util.* ;
+import java.io.*; 
+import java.util.Scanner;
+
+class Solution {
+    // "Hello Hi" => "olleH iH" 
+    // 
+    // T.C => O(n^2 + n) = > O(n^2)
+    // S.C => O(n+n) => O(n)
+    public static void reverse(int s, int e, char ch[]) {
+        while(s < e) {
+            char temp = ch[s];
+            ch[s] = ch[e];
+            ch[e] = temp;
+            s++; e--;
+        }
+    }
+    static String reverseEachWord(String input) {
+        char[] ch = input.toCharArray();
+        int s = 0;
+        for(int i = 0; i < ch.length; i++) {
+            if(ch[i] == ' ') {
+                reverse(s,i-1,ch);
+                s = i+1;
+            }
+        }
+        reverse(s,ch.length-1,ch);
+        return new String(ch);
+    }
+
+    public static String reverseEachWord1(String input) {
+        
+    }
+
+    public static void main(String args[]) {
+        Scanner sc = new Scanner(System.in);
+        String input = sc.nextLine();
+        // String ans = reverseEachWord(input);
+        String ans = reverseEachWord1(input);        
+        System.out.println(ans);
+    }
+}
+
+TOPIC TAGS :
+STRINGS
