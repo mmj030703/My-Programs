@@ -1,0 +1,80 @@
+Problem Link :
+https://www.codingninjas.com/codestudio/guided-paths/data-structures-algorithms/content/118626/offering/1377978?leftPanelTab=0
+
+Description :
+Given a string "pattern", which contains only two types of characters ‘(’, ‘)’.
+Your task is to find the minimum number of parentheses either ‘(’, ‘)’ we must add the parentheses in string ‘pattern’ and the resulted string is valid.
+Condition for valid string-
+Every opening parenthesis ‘(’ must have a correct closing parenthesis ‘)’.
+Example - ‘(()(()))’, ‘()()()’, ‘((()))’ are valid string, and ‘(((’, ‘(()’, ‘)(())’ are invalid string.
+Note:
+1. You are not required to print the output explicitly, it has already been taken care of. Just implement the function and return the minimum number of parentheses 
+required to make a string valid.
+
+Constraints:
+1 <= T <= 50
+1 <= N <= 10^4
+Where ‘T’ is the total number of test cases, ‘N’ denotes the length of string "pattern".
+Time limit: 1 second
+
+
+Source Code : 
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+	// BF Soln
+	// T.C => O(n*logn)
+	// S.C => O(n+n) => O(n)
+	public static int minimumParentheses1(String pattern) {
+		StringBuilder sb = new StringBuilder(pattern);
+        StringBuilder temp = new StringBuilder(pattern);
+        while(temp.toString().contains("()")) {
+            sb.replace(0,sb.length(), "");
+            sb.append(temp.toString().replace("()",""));
+            temp = new StringBuilder(sb);
+        }
+		return sb.length();
+	}
+
+	// Optimal Soln
+	// T.C => O(n)
+	// S.C => O(n)
+	public static int minimumParentheses2(String pattern) {
+		ArrayList<Character> l = new ArrayList<>(pattern.length());
+        for(int i = 0; i < pattern.length(); i++) {
+            if(pattern.charAt(i) == '(') l.add('(');
+            else if(pattern.charAt(i) == ')' && !l.isEmpty() && l.get(l.size()-1) == '(') l.remove(l.size()-1);
+            else l.add(')');
+        }
+        return l.size();
+	}
+
+	// Optimal Soln
+	// T.C => O(n)
+	// S.C => O(n)
+	public static int minimumParentheses3(String pattern) {
+		Stack<Character> s = new Stack<>();
+		for(int i = 0; i < pattern.length(); i++) {
+			if(pattern.charAt(i) == '(') s.push('(');
+			else if(pattern.charAt(i) == ')' && s.size() > 0 && s.peek() == '(') s.pop();
+			else s.push(')');
+		}
+		return s.size();
+	}
+
+	// Optimal Soln
+	// T.C => O(n)
+	// S.C => O(1)
+	public static int minimumParentheses(String pattern) {
+		int openParentheses = 0, corrections = 0;
+		for(int i = 0; i < pattern.length(); i++) {
+			if(pattern.charAt(i) == '(') openParentheses++;
+			else if(openParentheses > 0) openParentheses--;
+			else corrections++;
+		}
+		return corrections+openParentheses;
+	}
+}
+
+Topic Tags :
+STRINGS      STACK
