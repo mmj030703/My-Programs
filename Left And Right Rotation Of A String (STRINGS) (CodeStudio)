@@ -1,0 +1,114 @@
+Problem Link :
+https://www.codingninjas.com/codestudio/guided-paths/data-structures-algorithms/content/118626/offering/1377979?leftPanelTab=0
+
+Description :
+You are given a string 'str' and an integer 'D'. Your task is to rotate the given string left (anticlockwise) and right (clockwise) by 'D' units from the starting 
+index. 
+You are required to return the rotated string.
+
+Sample Input 1 :
+1
+codingninjas
+3
+Sample Output 1 :
+ingninjascod jascodingnin
+Explanation For The Sample Output 1 :
+In string “codingninjas” the substring of length 'D' = 3, starting from the beginning is “cod”, in the left rotation this substring is removed from the beginning and 
+attached to the end of the string (i.e. anti-clockwise).
+
+Similarly, in the right rotation, the substring of length 'D'  = 3 from the end is “jas”, this substring is removed from the end and attached to the beginning of the 
+string(i.e. clockwise).
+Sample Input 2 :
+2
+abcd
+4
+abc
+4
+Sample Output 2 :
+abcd abcd
+bca cab
+Explanation For The Sample Output 2 :
+In the first test case, as 'D' is equal to the length of the string so the substring same as the given string needs to be removed from the beginning and from the end
+and attached to the end and beginning of the empty string in the left and the right rotation respectively.
+In the second test case, as 'D' is greater than the length of the string, so rotate it multiple times. After rotating the given string by '3' units, we get the same 
+string as given, So now rotate the given string by 1 i.e('D' % 'N') units.
+
+Constraints :
+1 <= T <= 10
+1 <= |str| <= 10^5
+1 <= D <= 10^5
+Where |str| denotes the length of the string str.
+Time Limit: 1 sec
+
+
+Source Code :
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+    ////////////////////////////////////////////////////////////////////////////////////
+    // Approach 1
+    // BF Soln
+    // T.C => O(n^2 + n^2) => O(n^2)
+    // S.C => O(n+n+n+n) => O(n)
+    public static String leftRotate1(String str, int d) {
+        d = d % str.length();
+        char [] ch = str.toCharArray();
+        for(int i = 0; i < d; i++) {
+            char currChar = ch[0];
+            for(int j = 1; j < str.length(); j++) {
+                ch[j-1] = ch[j];
+            }
+            ch[ch.length-1] = currChar;
+        }
+        return new String(ch);
+    }
+
+    public static String rightRotate1(String str, int d) {
+        d = d % str.length();
+        char [] ch = str.toCharArray();
+        for(int i = 0; i < d; i++) {
+            char currChar = ch[ch.length-1];
+            for(int j = str.length()-1; j > 0; j--) {
+                ch[j] = ch[j-1];
+            }
+            ch[0] = currChar;
+        }
+        return new String(ch);
+    }
+    ///////////////////////////////////////////////////////////////////////////////
+    // Approach 2
+    // Optimal Soln
+    // T.C => O(3n + 3n) => O(n)
+    // S.C => O(n+n+n+n) => O(n)
+    // Approach 3 :: Same logic as approach 3 but instead of reversing we will use 
+    // substring method.
+
+    public static void reverse(int s, int e, char [] ch) {
+        while(s < e) {
+            char temp = ch[s];
+            ch[s] = ch[e];
+            ch[e] = temp;
+            s++; e--;
+        }
+    }
+    public static String leftRotate(String str, int d) {
+        d = d % str.length();
+        char [] ch = str.toCharArray();
+        reverse(0,d-1,ch);
+        reverse(d, ch.length-1, ch);
+        reverse(0, ch.length-1, ch);
+        return new String(ch);
+    }
+    public static String rightRotate(String str, int d) {
+        d = d % str.length();
+        char [] ch = str.toCharArray();
+        reverse(ch.length-d, ch.length-1, ch);
+        reverse(0, ch.length-1-d, ch);
+        reverse(0, ch.length-1, ch);
+        return new String(ch);
+    }
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Topic Tags :
+Strings    
