@@ -1,0 +1,118 @@
+Problem Link :
+https://www.codingninjas.com/codestudio/guided-paths/data-structures-algorithms/content/118626/offering/1377987?leftPanelTab=0
+
+Description :
+You have been given two strings, let's say 'STR1' and 'STR2' of equal lengths. You are supposed to return the minimum number of manipulations required to make the 
+two strings anagrams.
+Note:
+An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase. We can generalise this in string processing by saying that an anagram 
+of a string is another string with the same quantity of each character in it, in any order.
+
+Example:
+String “eat” and “ate” are anagram to each other but string “buy” and “bye” are not.
+
+Sample Input 1:
+2
+except
+accept
+buy
+bye
+Sample Output 1 :
+2
+1
+Explanation Of Sample Output 1 :
+In test case 1, we can change two character of  'STR1' i.e. {'e','x'} to {'a','c'} or we can change two character of  'STR2' i.e. {'a','c'} to {'e','x'}, to make 
+string anagram. So the minimum number of manipulations to make 'STR1' and  'STR2' to anagram string will be 2.
+
+In test case 2, we can change one character of  'STR1' i.e. {'u'} to {'e'} or we can change one character of  'STR2' i.e. {'e'} to {'u'}, to make string anagram. 
+So the minimum number of manipulations to make  'STR1' and 'STR2' to anagram string will be 1.
+Sample Input 2:
+2
+mail
+male
+ninja
+ninja
+Sample Output 2 :
+1
+0
+Explanation Of Sample Output 2 :
+In test case 1, we can change one character of  'STR1' i.e. {'i'} to {'e'} or we can change one character of  'STR2' i.e. {'e'} to {'i'}, to make string anagram. 
+So the minimum number of manipulations to make  'STR1' and  'STR2' to anagram string will be 1.
+
+In test case 2, both strings are already anagram. So we do not need to do any manipulation. So the minimum number of manipulations to make  'STR1' and  'STR2' to
+anagram string will be 0.
+
+
+Constraints :
+1<= T <= 100
+1<= N <= 5*10^3
+
+Where 'N' is the length of strings 'STR1' and 'STR2'.
+Time limit: 1 sec
+
+Source Code :
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+	// BF Soln :: TLE Soln
+	// T.C => O(n^2)
+	// S.C => O(n)
+	public static int getMinimumAnagramDifference1(String str1, String str2) {
+		StringBuilder sb = new StringBuilder(str2);
+		int manipulations = 0;
+		for(int i = 0; i < str1.length(); i++) {
+			boolean flag = false;
+			for(int j = 0; j < sb.length(); j++) {
+				if(str1.charAt(i) == sb.charAt(j)) {
+					sb.replace(j, j+1, "");
+					flag = true;
+					break;
+				}
+			}  
+			if(!flag) manipulations++;
+		}
+		return manipulations;
+	}
+
+	// Better than BF
+	// T.C => O(nlogn + nlogn + n) => O(nlogn)
+	// S.C => O(n+n) => O(n)
+	public static int getMinimumAnagramDifference2(String str1, String str2) {
+		char [] s1 = str1.toCharArray();
+		Arrays.sort(s1);
+		char [] s2 = str2.toCharArray();
+		Arrays.sort(s2);
+		int equals = 0;
+		int i = 0, j = 0;
+		while(i < s1.length && j < s2.length) {
+			if(s1[i] == s2[j]) {
+				equals++;
+				i++; j++;
+			}
+			else if(s1[i] > s2[j]) j++;
+			else i++;
+		}
+		return s1.length - equals;
+	}
+	
+	// Optimal Soln
+	// T.C => O(n + n) => O(n)
+	// S.C => O(n)
+	public static int getMinimumAnagramDifference(String str1, String str2) {
+		HashMap<Character, Integer> mp = new HashMap<>(str1.length());
+		for(int i = 0; i < str1.length(); i++) {
+			mp.put(str1.charAt(i),mp.getOrDefault(str1.charAt(i), 0)+1);
+		}
+		int manipulations = 0;
+		for(int i = 0; i < str2.length(); i++) {
+			if(mp.getOrDefault(str2.charAt(i),0) == 0) {
+				manipulations++;
+			}
+			else mp.put(str2.charAt(i), mp.get(str2.charAt(i))-1);
+		}
+		return manipulations;
+	}
+}
+
+TOPIC TAGS :
+STRINGS          HASHMAP
