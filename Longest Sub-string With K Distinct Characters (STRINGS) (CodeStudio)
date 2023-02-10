@@ -1,0 +1,186 @@
+Problem Link :
+https://www.codingninjas.com/codestudio/guided-paths/data-structures-algorithms/content/118626/offering/1377986?leftPanelTab=0
+
+Description :
+You are given a string 'S' of length 'N' consisting of lowercase English alphabet letters. You are also given a positive integer 'K'.
+Now, a substring of this string is good if it contains at most 'K' distinct characters. A string 'X' is a substring of string 'Y' if it can be obtained by deletion of 
+several continuous elements(possibly zero) from the beginning and the end from the string 'Y'.
+Your task is to return the maximum size of any good substring of the string 'S'.
+
+Example:
+‘S’ = “bacda” and ‘K’ = 3.
+
+So, the substrings having at most ‘3’ distinct characters are called good substrings. Some possible good substrings are:
+1. “bac”
+2. “acd”
+3. “acda”
+
+The substring “acda” is the largest possible good substring, as we cannot get any other substring of length 5 or more having distinct characters less than 
+or equal to 
+‘3’. Thus, you should return ‘4’ as the answer.
+
+Sample Input 1:
+2
+2
+abcbc
+1
+abccc
+Sample Output 1:
+4
+3
+Explanation For Sample Input 1:
+For the first test case :
+K = 2, so we can choose substring “bcbc” having 2 distinct character which is less than or equal to K = 2. 
+
+We cannot get any other substring of length 5 or more having distinct characters less than or equal to 2. Thus, you should return ‘4’ as the answer.
+
+For the second test case :
+K = 1, so we can choose substring “ccc” having only 1 distinct character which is less than or equal to K = 1. 
+
+We cannot get any other substring of length 4 or more having distinct characters less than or equal to 1. Thus, you should return ‘3’ as the answer.
+Sample Input 2:
+1
+6
+abcba
+3
+acbdab
+Sample Output 2:
+5
+4
+
+Constraints:
+1 <= T <= 10
+1 <= K <= 26
+1 <= N <= 10^4
+
+All the characters of the string are lowercase English alphabet letters.
+
+Time Limit: 1 sec
+
+
+Source Code :
+package com.practice;
+import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+class Solution {
+    // BF Soln
+    // Approach :
+    // 1. Traversing in String str
+    // 2. Making two nested for loops
+    //    2a. In outer loop we traverse str and hold each character one at a time.
+    //    2b. In inner loop we count the unique characters and currLength and update maxLength
+    //    after the inner loop ends.
+    // 3. Outer loop ends and we return maxLength
+    // T.C => O(n^3) :: TLE Soln
+    // S.C => O(n)
+    public int getLengthofLongestSubstring1(String str, int k) {
+        int maxLength = 0;
+        for(int i = 0; i < str.length(); i++) {
+            ArrayList<Character> uniqueChar = new ArrayList<>(str.length());
+            int uniqueCount = 0, currLength = 0;
+            for(int j = i; j < str.length(); j++) {
+                if(uniqueChar.contains(str.charAt(j))) currLength++;
+                else if(uniqueCount < k) {
+                    uniqueChar.add(str.charAt(j));
+                    uniqueCount++;
+                    currLength++;
+                }
+                else break;
+            }
+            maxLength = Math.max(maxLength, currLength);
+        }
+        return maxLength;
+    }
+
+    // Optimal Soln
+    // T.C => O(n) // As inner loop will only when map size is > than k.
+    // S.C => O(n) // can be done using freq array also. with O(1) S.C.
+    public int getLengthofLongestSubstring2(String str, int k) {
+        HashMap<Character, Integer> mp = new HashMap<>(str.length());
+        int i = 0, j = 0, maxLength = 0;
+        while(j < str.length()) {
+            char sj = str.charAt(j);
+            mp.put(sj , mp.getOrDefault(sj,0)+1);
+
+            while(mp.size() > k) {
+                char si = str.charAt(i);
+                if(mp.get(si) == 1) {
+                    mp.remove(si);
+                }
+                else mp.put(si, mp.get(si)-1);
+                i++;
+            }
+
+            maxLength = Math.max(maxLength, j-i+1);
+            j++;
+        }
+        return maxLength;
+    }
+
+    // T.C => O(n^3) :: TLE Soln
+    // S.C => O(n)
+    public static boolean checkDistincts(String temp, int k) {
+        int [] freq = new int [26];
+        for(int i = 0; i < temp.length(); i++) {
+            freq[temp.charAt(i) - 'a']++;
+        }
+        int distincts = 0;
+        for(int i = 0; i < freq.length; i++) {
+            if(freq[i] > 0) distincts++;
+        }
+        return distincts <= k;
+    }
+    public int getLengthofLongestSubstring3(String str, int k) {
+        int maxLength = 0;
+        for(int i = 0; i < str.length(); i++) {
+            String temp = "";
+            for(int j = i; j < str.length(); j++) {
+                temp += str.charAt(j);
+                if(checkDistincts(temp, k)) {
+                    maxLength = Math.max(maxLength, j-i+1);
+                }
+            }
+        }
+        return maxLength;
+    }
+
+    // Optimised Soln of above soln
+    // T.C => O(n^2)
+    // S.C => O(1)
+    public static boolean checkDistincts(int [] freq, int k) {
+        int distincts = 0;
+        for(int i = 0; i < freq.length; i++) {
+            if(freq[i] > 0) distincts++;
+        }
+        return distincts <= k;
+    }
+    public static int getLengthofLongestSubstring(String str, int k) {
+        int maxLength = 0;
+        for(int i = 0; i < str.length(); i++) {
+            int [] freq = new int [26];
+            for(int j = i; j < str.length(); j++) {
+                freq[str.charAt(j) - 'a']++;
+                if(checkDistincts(freq, k)) {
+                    maxLength = Math.max(maxLength, j-i+1);
+                }
+            }
+        }
+        return maxLength;
+    }
+}
+
+public class practiceQuestion {
+    public static void main(String [] args) {
+        Scanner sc = new Scanner(System.in);
+        String str = sc.nextLine();
+        int k = sc.nextInt();
+        Solution obj = new Solution();
+        int ans = obj.getLengthofLongestSubstring(str, k);
+        System.out.println(ans);
+    }
+}
+
+Topic Tags :
+STRINGS           SLIDING WINDOW            HASHMAP
