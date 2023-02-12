@@ -1,0 +1,163 @@
+Problem Link :
+https://www.codingninjas.com/codestudio/guided-paths/data-structures-algorithms/content/118626/offering/1377990?leftPanelTab=2
+
+Description :
+Ninja has given you a list of WORDS and a PATTERN string. Your task is to find all such words in the list which match the given pattern. A valid match is found if 
+and only if every character in the pattern is uniquely mapped to a character in a word.
+Example:
+Let the list of words be {cod, zcz} and the pattern be ‘nin’.
+For each word in the list, we will check whether the word matches the pattern or not:
+
+For the word ‘cod’:
+Letter ‘n’ in the pattern maps to letter ‘c’ in the word.
+Letter ‘i’ in the pattern maps to letter ‘o’ in the word.
+Letter ‘n’ in the pattern maps to letter ‘d’ in the word.
+
+As the same letter ‘n’ in the pattern, maps to two different letters ‘c’ and ‘d’ in the word. Hence, ‘cod’ is not a valid match.
+
+For the word 'zcz':
+Letter ‘n’ in the pattern maps to letter ‘z’ in the word.
+Letter ‘i’ in the pattern maps to letter ‘c’ in the word.
+Letter ‘n’ in the pattern maps to letter ‘z’ in the word.
+
+As every letter in the pattern maps uniquely to a corresponding letter in the word. Hence 'zcz' is a valid match.
+
+Print the words in the same order in which they occur in the list.
+
+Sample Input 1:
+2
+2
+cdd pcm
+foo
+3
+abcd km qst
+pqr
+Sample Output 1:
+cdd 
+qst 
+Explanation 1:
+For the first test case, the list of words is {cdd, pcm} and the pattern is 'foo'. 
+
+For the word 'cdd': 
+The letters ‘f’, ‘o’, ‘o’ of the pattern, map to letters ‘c’, ‘d’, ‘d’ of the word respectively. As every letter in the pattern maps uniquely to a corresponding letter in the word. Hence, it is a valid match.
+
+For the word 'pcm': 
+The letters ‘f’, ‘o’, ‘o’ of the pattern map to letters ‘p’, ‘c’, ‘m’ of the word respectively. As the same letter ‘o’, in the pattern, maps to two different letters ‘c’ and ‘m’ in the word. Hence, 'pcm' is not a valid match.
+
+For the second test case, the list of words is {abcd, km, qst} and the pattern is 'pqr'.
+
+For the word 'abcd': 
+The letters ‘p’, ‘q’, ‘r’ of the pattern map to letters ‘a’, ‘b’, ‘c’ of the word respectively. But, there is no character in the pattern which maps to the letter 
+‘d’ in the word. Hence, it is not a valid match.
+
+For the word 'km':
+The letters ‘p’, ‘q’ of the pattern, map to letters ‘k’, ‘m’ of the word respectively. But. there is no character in the word which maps to the letter ‘r’ in the pattern. Hence, it is not a valid match. 
+
+For the word 'qst': 
+The letters ‘p’, ‘q’, ‘r’ of the pattern map to letters ‘q’, ‘s’, ‘t’ of the word respectively. As every letter in the pattern maps uniquely to a corresponding 
+letter in the word. Hence, it is a valid match.
+
+Sample Input 2:
+2
+5
+aaaa abcd code toma zedi
+pqrs
+6
+adff coding ejqq fstt ggnn ninja
+lmnn
+Sample Output 2:
+abcd code toma zedi
+adff ejqq fstt
+
+Sample Input 3:
+2
+3
+#h#@# AmAka &t&y&   
+%R%s%
+1
+A
+B
+Sample Output 3:
+#h#@# &t&y&  
+A
+
+Constraints:
+1 <= T <= 10 
+1 <= N <= 10 ^ 2
+1 <= Length of pattern, Length of each word <= 10 ^ 3
+Time Limit: 1 sec
+
+
+Source Code :
+import java.util.* ;
+import java.io.*; 
+
+public class Solution {
+    // Optimal Soln :: Code can be written in Professional way(Check Coding Ninjas Soln).
+    // Use containsKey and containsValue methods of HashMap
+    // T.C => O(n^2)
+    // S.C => O(n)
+    public static List<String> matchSpecificPattern1(List<String> words, int n, String pattern) {
+      List<String> ans = new ArrayList<>(words.size());
+      for(int i = 0; i < words.size(); i++) {
+        String s = words.get(i);
+        if(pattern.length() < s.length() || pattern.length() > s.length()) continue;
+        HashMap<Character,Character> mp = new HashMap<>(s.length());
+        boolean flag = true;
+        for(int j = 0; j < s.length(); j++) {
+          char c = s.charAt(j);
+          for(HashMap.Entry<Character,Character> entry : mp.entrySet()) {
+            boolean val = entry.getValue().equals(c) && entry.getKey() != pattern.charAt(j);
+            boolean key = entry.getKey().equals(pattern.charAt(j)) && entry.getValue() != c;
+            if(val || key) {
+              flag = false;
+              break;
+            }
+          }
+          if(!flag) break;
+          else mp.put(pattern.charAt(j), c);
+        } 
+        if(flag) ans.add(s);
+      }
+      return ans;
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Optimal Soln :: 
+    // Approach ::
+    // Generate hash :: To calculate hash for any string do following ::
+    //                  1) for every unique character map a unique value say start from 1
+    //                  eg :: "hello" map h : 1, e : 2, l : 3, o : 4
+    //                  2) Now put the value in the repective string in place of key
+    //                  eg : "hello" :: "12334"
+    // Generate Hash for pattern first and then for every word if both of them are same 
+    // then they are valid match then store it in ans list.
+    // T.C => O(n^2)
+    // S.C => O(n)
+    public static List<String> matchSpecificPattern(List<String> words, int n, String pattern) {
+        List<String> ans = new ArrayList<>(words.size());
+        String hashPattern = generateHash(pattern);
+        for(int i = 0; i < n; i++) {
+            String s = words.get(i); 
+            if(s.length() != pattern.length()) continue;
+            String hashWord = generateHash(s);
+            if(hashWord.equals(hashPattern)) ans.add(s);
+        }
+        return ans;
+    }
+    public static String generateHash(String str) {
+        HashMap<Character, Integer> mp = new HashMap<>(str.length());
+        int counter = 1;
+        String hash = "";
+        for(int i = 0; i < str.length(); i++) {
+            char c = str.charAt(i);
+            if(!mp.containsKey(c)) {
+                mp.put(c, counter++);
+            }
+            hash += mp.get(c);
+        }
+        return new String(hash);
+    }
+}
+
+Topic Tags :
+Strings             HashMap
