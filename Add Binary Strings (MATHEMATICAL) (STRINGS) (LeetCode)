@@ -30,6 +30,37 @@ Expected Auxiliary Space: O(max(|A|, |B|)) (for output string).
 // S.C => O(max(A,B))
 
 Source Code :
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Java Code
+package com.practice;
+import java.util.Scanner;
+
+class Solution {
+    public String addBinary(String a, String b) {
+        int carry = 0, s1 = a.length()-1, s2 = b.length()-1;
+        String ans = "";
+        while(s1 >= 0 || s2 >= 0 || carry > 0) {
+            carry += (s1 >= 0) ? a.charAt(s1--) - '0' : 0;
+            carry += (s2 >= 0) ? b.charAt(s2--) - '0' : 0;
+            ans = (carry % 2) + ans;
+            carry /= 2;
+        }
+        return ans;
+    }
+}
+
+public class practiceQuestion {
+    public static void main(String [] args) {
+        Scanner sc = new Scanner(System.in);
+        String str1 = sc.nextLine();
+        String str2 = sc.nextLine();
+        Solution obj = new Solution();
+        String ans = obj.addBinary(str1, str2);
+        System.out.println(str1 + "\n" + "+" + "\n" + str2 + "\n_____________\n" + ans);
+    }
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 //{ Driver Code Starts
 #include<bits/stdc++.h>
 using namespace std;
@@ -44,9 +75,8 @@ using namespace std;
 //                       will be of max length string i.e at least that much bits will
 class Solution{       // be there
 public:	
-	string addBinary(string A, string B)
-	{
-	    int strALen = A.size()-1, strBLen = B.size()-1;
+     string addBinary(string A, string B) {
+	int strALen = A.size()-1, strBLen = B.size()-1;
         string s = "";
         int carry = 0;
         while(strALen >= 0 || strBLen >= 0 || carry) {
@@ -60,7 +90,7 @@ public:
         int i = 0;
 	    while(s[i] == '0') i++;
 	    return s.substr(i);
-	}
+     }
 };
 */ // Optimal Soln
 
@@ -128,3 +158,6 @@ int main()
 // Contributed By: Pranay Bansal
 
 // } Driver Code Ends
+
+Topic Tags :
+STRINGS            MATH
