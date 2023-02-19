@@ -1,0 +1,109 @@
+Problem Link :
+https://www.codingninjas.com/codestudio/guided-paths/data-structures-algorithms/content/118626/offering/1382157?leftPanelTab=0
+
+Description :
+Given a string ‘STR’ consisting of lower case English letters, the task is to find the first non-repeating character in the string and return it. If it doesn’t exist, 
+return ‘#’.
+For example:
+For the input string 'abcab', the first non-repeating character is ‘c’. As depicted the character ‘a’ repeats at index 3 and character ‘b’ repeats at index 4. Hence we 
+return the character ‘c’ present at index 2.
+
+Sample Input 1:
+2
+bbabcbcb
+babaabea
+Sample Output 1:
+a
+e
+Explanation Of Sample Input 1:
+For the first test case, 
+the first non-repeating character is ‘a’. As depicted the character ‘b’ repeats at index 1, 3, 5, 7, and character ‘c’ repeats at index 6. Hence we return the character ‘a’ present at index 2.
+
+For the second test case, 
+the character ‘e’ is the first non-repeating character. As depicted the character ‘b’ repeats at index 2, 5, and character ‘a’ repeats at index 3, 4, and 7. Hence we return the character ‘e’ present at index 6.
+Sample Input 2:
+3
+cbbd
+bebeeed
+abcd
+Sample Output 2:
+c
+d
+a
+
+
+Constraints:
+1 <= T <= 100
+1 <= N <= 10 ^ 4
+Where ‘T’ is the number of test cases, and ‘N’ is the length of the string.
+Time Limit: 1 sec
+
+Source Code :
+package com.practice;
+import java.util.AbstractMap;
+import java.util.HashMap;
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class PracticeQuestion {
+    // BF Soln :: Going on each character an checking whether any duplicate character of
+    // it is present in the whole string excluding the position of current charcter for
+    // whom we are checking
+    // T.C => O(n^2)
+    // S.C => O(1)
+    public static char firstNonRepeating1(String str) {
+        char ans = ' ';
+        for(int i = 0; i < str.length(); i++) {
+            boolean elementFound = false;
+            for(int j = 0; j < str.length(); j++) {
+                if(i != j && str.charAt(i) == str.charAt(j)) {
+                    elementFound = true;
+                    break;
+                }
+            }
+            if(!elementFound) return str.charAt(i);
+        }
+        return '#';
+    }
+
+    // Optimal Soln
+    // T.C => O(n+n) => O(n)
+    // S.C => O(1) -> As only lowercase letters are present in the string so at the
+    //             -> worst case in hashmap we will have 26 letters i.e 26 size map.
+    public static char firstNonRepeating2(String str) {
+        HashMap<Character, Integer> mp = new HashMap<>(str.length());
+        for(int i = 0; i < str.length(); i++) {
+            mp.put(str.charAt(i), mp.getOrDefault(str.charAt(i), 0)+1);
+        }
+        for(int i = 0; i < str.length(); i++) {
+            if(mp.get(str.charAt(i)) == 1) return str.charAt(i);
+        }
+        return '#';
+    }
+
+    // Optimal Soln :: Optimal in Sense of Code Also
+    // T.C => O(n+n) => O(n)
+    // S.C => O(1) -> As only lowercase letters are present in the string so at the
+    //             -> Constant size of Array is made i.e of 26 size as there are only 26 lowercase
+    //                letters.
+    public static char firstNonRepeating(String str) {
+        char [] alphaFreq = new char[26];
+        for(int i = 0; i < str.length(); i++) {
+            alphaFreq[str.charAt(i) - 'a']++;
+        }
+        for(int i = 0; i < str.length(); i++) {
+            if(alphaFreq[str.charAt(i) - 'a'] == 1) return str.charAt(i);
+        }
+        return '#';
+    }
+
+    public static void main(String [] args) {
+        Scanner sc = new Scanner(System.in);
+        String str = sc.nextLine();
+        char ans = firstNonRepeating(str);
+        System.out.println(ans);
+    }
+}
+
+Topic Tags :
+Strings             HashMap(Using Frequency Array Instead of HashMap)
