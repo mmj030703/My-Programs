@@ -1,0 +1,108 @@
+Problem Link :
+https://www.codingninjas.com/codestudio/guided-paths/data-structures-algorithms/content/118626/offering/1382162?leftPanelTab=0
+
+Description :
+You are given the text ‘IPAddress’. Your task is to check if the given text ‘IPAddress’ is a valid ‘IPv4’ or not.
+Conditions for a valid ‘IPv4’ are:
+1. Text form of ‘IPAddress’ must be ‘a.b.c.d’
+2. The values of a,b,c and d can vary from ‘0’ to ‘255’ and both ‘0’ and ‘255’ are inclusive.
+
+Sample Input 1:
+4
+123.111.12.k
+122.0.330.0
+1.1.1.250
+1.0.0.0.1
+Sample Output 1:
+False
+False
+True
+False
+Explanation Of Sample Input 1:
+Test Case 1:
+Given text ‘IPAddress = 123.111.12.k’, it is satisfying the first condition that given ‘IPAddress’ must be ‘a.b.c.d’ formed but it not satisfying the second condition that d must in a range of ‘0’ to ‘255’ but the value of ‘d’ is ‘k’.
+Hence return ‘False’.
+
+Test Case 2:
+Given text ‘IPAddress = 122.0.330.0’, it is satisfying the first condition that given ‘IPAddress’ must be ‘a.b.c.d’ formed but it not satisfying the second condition that c must in a range of ‘0’ to ‘255’ but the value of ‘c’ is ‘330’ and it is out of range.
+Hence return ‘False’.
+
+Test Case 3:
+Given text ‘IPAddress = 1.1.1.250’, it is satisfying the first condition that given ‘IPAddress’ must be ‘a.b.c.d’ formed as well as it satisfying the second condition that a,b,c, and d must in range of ‘0’ to ‘250’.
+Hence return ‘True’.
+
+Test Case 4:
+Given text ‘IPAddress = 1.0.0.0.1’, it is not satisfying the first condition for valid ‘IPv4’, that text ‘IPAddress’ must be in form of ‘a.b.c.d’ but given text is a form of ‘a.b.c.d.e’
+Hence return ‘False’.
+Sample Input 2:
+2
+1.90.21.1
+1.1
+Sample Output 2:
+True
+False
+
+1 <= T <= 10^4
+1 <= length of given text <= 50
+Time limit: 1 sec
+
+
+SOURCE CODE :
+import java.util.* ;
+import java.io.*; 
+
+public class Solution {
+	// BF Soln
+	// T.C => O(n^2)
+	// S.C => O(1)
+	public static boolean isValidIPv41(String ipAddress) {
+		int dotCount = 0;
+		for(int i = 0; i < ipAddress.length(); i++) {
+			if(ipAddress.charAt(i) == '.') dotCount++;
+		}
+		if(dotCount == 3) {
+			int i = 0;
+			while(i < ipAddress.length()) {
+				long num = 0L;
+				while(i < ipAddress.length() && ipAddress.charAt(i) != '.') {
+					if(ipAddress.charAt(i) < '0' || ipAddress.charAt(i) > '9') return false;
+					num = num*10 + (ipAddress.charAt(i)-'0');
+					i++;
+				}
+				i++;
+				if(num < 0 || num > 255) return false;
+			}
+			return true;
+		}
+		else return false;
+	}
+
+
+	// Optimal Soln
+	// T.C => O(n) // O(1) as contraints are length of string is at max 50.
+	// S.C => O(1)
+	public static boolean isValidIPv4(String ipAddress) {
+		int dotCount = 0, i = 0, num = 0;
+		while(i < ipAddress.length()) {
+			if(ipAddress.charAt(i) != '.' && (ipAddress.charAt(i) < '0' || ipAddress.charAt(i) > '9')) return false;
+			if(dotCount <= 3) {
+				if(ipAddress.charAt(i) != '.') {
+					num = num*10 + (ipAddress.charAt(i)-'0');
+				}
+				else {
+					dotCount++;
+					if(num < 0 || num > 255) return false;
+					num = 0;
+				}
+				i++;
+			}
+			else return false;
+		}
+		if(dotCount == 3) return true;
+		else return false;
+	}
+}
+
+
+TOPIC TAGS :
+STRINGS
